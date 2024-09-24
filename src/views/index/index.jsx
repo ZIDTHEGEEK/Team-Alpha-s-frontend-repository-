@@ -1,23 +1,30 @@
+import sui from './assets/sui.png'
+
 const IndexPage = () => {
   return (
-    <div>
+    <div className='bg-emerald-50 ' >
       <div>
-        <section className="image">
-          <img src="" alt="" />          
-        </section>
-        <section className="content container p-5">
-          <h2>
-            BUILD A SECURE, PRIVATE, AND COMMUNITY-DRIVEN EMAIL PLATFORM WHERE USERS HAVE FULL CONTROL OVER THEIR DATA AND IDENTITY.
-          </h2> 
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, debitis deserunt. Natus accusamus qui, voluptatem explicabo, unde iusto quidem laudantium inventore similique tenetur atque deserunt optio id adipisci aperiam cum!
-            Alias officia nulla mollitia quaerat eligendi sapiente voluptates amet laudantium pariatur laborum blanditiis rerum voluptas consectetur delectus, nam nisi molestias cum omnis ut, nesciunt eos molestiae quibusdam? Exercitationem, rerum quasi.
-            Incidunt velit porro rem mollitia consequuntur nihil eum nam laboriosam! Iste, magnam? Minima, numquam quos unde libero ducimus dolorum ad sapiente delectus iure dolorem, eveniet ipsum aut ab ea provident!
-            Fugiat impedit veniam suscipit sit quae sunt! Error sunt molestiae fuga vero id, nam ex non nobis cumque expedita pariatur culpa asperiores porro. Dolorum sint beatae debitis molestiae? Eligendi, sunt!
-            Omnis fugiat sed necessitatibus consequuntur veritatis beatae quis dolorem sunt. Unde animi necessitatibus rem delectus, enim eius, iusto odit veniam nesciunt error dignissimos incidunt minus maiores, dicta laudantium porro ullam?
-          </p>         
-        </section>
+        <div className='flex flex-row-reverse justify-center items-center h-screen '>
+          <section className="image px-5">
+            <img src={sui} alt="sui-image" />          
+          </section>
+          <section className=" flex flex-col text-justify w-2/5 px-5 ">
+            <h2 className='font-sans text-3xl leading-relaxed font-bold  space-x-3'>
+              BUILD A SECURE, PRIVATE, AND COMMUNITY-DRIVEN EMAIL PLATFORM WHERE USERS HAVE FULL CONTROL OVER THEIR DATA AND IDENTITY.
+            </h2> 
+            <p className=' py-5'>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur culpa, iste vero, ad accusantium tempore non eos ab commodi, fuga cum id corporis. Molestias possimus itaque non ab vitae fuga.
+              Hic sequi sit odio autem natus excepturi fugiat voluptatibus eius, cumque beatae asperiores dolorum mollitia facere eveniet tempora nulla, aliquam earum saepe dolor ullam non officiis quam doloribus voluptates. Sapiente?
+              Quisquam praesentium dolorem sed dicta neque labore vitae dignissimos! Nostrum optio commodi omnis aut rem repellendus. Perspiciatis ratione corrupti pariatur tempore distinctio, unde cupiditate sed laudantium repellat perferendis! Dolores, perferendis.
+            </p>         
+            <div className=' mt-4'>              
+              <a href="" className='inline-block text-white bg-blue-500 py-2 px-3 hover:bg-blue-600 translate-y-0.5 rounded-lg'> Create new account </a>              
+              <a href="" className='text-indigo-400 underline hover:text-indigo-600 mx-10'> I already have an account </a>
+            </div>
+          </section>
+        </div>
       </div>
+      
      
     </div>
   )
