@@ -1,12 +1,10 @@
+import LandingPage from "../../LandingPage"
 
 
 const IndexPage = () => {
   return (
-    <div>
-      <div>
-        Sui Landing page
-      </div>
-      
+    <div>      
+      <LandingPage />
     </div>
 
   )
