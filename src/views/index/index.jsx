@@ -14,7 +14,7 @@ function HomePage() {
                             SuiMail is designed to provide end-to-end encryption, token-based incentives, and self-sovereign identity, ensuring users are in charge of their own information and communications in a decentralized environment.
                         </p>
                     </div>
-                    <img src="mail_logo.jpg" alt="SuiMail Logo" className="h-20 ml-4 "width="100px" />
+                    <img src="mail_logo.jpg" alt="SuiMail Logo" className="h-20 ml-4 "width="1000px" />
                 </div>
 
                 {/* Button Container */}
@@ -31,6 +31,10 @@ function HomePage() {
                 </div>
             </div>
         </div>
+
+    // {Mobile view }
+
+
     );
 }
 
