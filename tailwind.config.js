@@ -16,7 +16,14 @@ export default {
     extend: {
       colors:{
         skyblue:"#4BA2FF",
-      }
+      },
+      width: {
+        '32': '32%',
+      },
+    margin : {
+        '5p': '5%',
+        '25p': '25%',
+    }
     },
   },
   plugins: [],

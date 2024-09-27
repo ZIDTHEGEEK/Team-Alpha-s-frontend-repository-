@@ -49,3 +49,45 @@ button {
     width:unset;
   }
 }
+
+/* Login Page additional CSS */
+
+/* .login-section{
+  margin-left: 25%;
+} */
+
+.password-input small{
+  right: 68%;
+}
+
+.password-icon{
+  top: 58%;
+  right: 69%;
+}
+
+@media (max-width:1536px) {
+  .password-input small{
+    right: 60%;
+  }
+
+  .password-icon{    
+    right: 61%;
+  }
+}
+
+@media (max-width:1024px) {
+  .password-input small{
+    right: 40%;
+  }
+
+  .password-icon{    
+    right: 41%;
+  }
+}
+
+
+/* @media (max-width:768px) {
+  .email-input small{
+    right: 51%;
+  }
+} */
