@@ -1,0 +1,168 @@
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1001;
+  width: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.modal-heading {
+  /* padding: 10px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(161, 160, 160);
+  width: 100%;
+}
+.wallets {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+}
+.wallet {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.modal-body {
+  width: 100%;
+}
+
+.loading-body h2 {
+  margin-top: 20px;
+}
+.loading,
+.loading-body {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+.loading-body p {
+  font-size: 13px;
+  width: 200px;
+  text-align: center;
+  margin-top: 10px;
+}
+.loading-dot {
+  width: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 2px solid; */
+  margin-top: 10px;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(211, 209, 209);
+  margin: 2px;
+  border-radius: 100%;
+}
+.active {
+  background-color: rgb(116, 115, 115);
+}
+.failed {
+  color: rgb(255, 111, 111);
+  margin: 30px;
+}
+.failed p {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.connected {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+.connected-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 700;
+  /* border: 2px solid; */
+  margin-top: 20px;
+}
+.disconnected {
+  padding: 10px 20px;
+  border: 1px solid red;
+  border-radius: 10px;
+  background-color: rgb(255, 205, 205);
+}
+.wallet-img {
+  width: 20px;
+  height: 20px;
+}
+.address {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.connected-body {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  width: 90%;
+  border: 1px solid rgb(186, 186, 186);
+  text-align: center;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.connected-body .address p {
+  margin-left: 10px;
+}
+.view-token {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  /* border: 1px solid red; */
+  width: 100%;
+}
+.copy {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  font-size: 13px;
+  padding: 8px;
+  cursor: pointer;
+}
+.copy p {
+  padding-left: 5px;
+}
