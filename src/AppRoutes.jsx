@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import Layout from "./components/layout/Layout"
 import IndexPage from "./views/index"
-import SignUp from "./views/signup"
+import LoginPage from "./views/login"
+import SignUpPage from "./views/signup"
 import AuthLayout from "./components/layout/AuthLayout"
 
 export default function AppRoutes() {
@@ -10,7 +11,8 @@ export default function AppRoutes() {
       <Route path="/" element={<Layout />}>
         <Route path="" element={<IndexPage />} />
         <Route path="auth" element={<AuthLayout />}>
-          <Route path="signup" element={<SignUp />} />
+          <Route path="create-account" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
         </Route>
       </Route>
 

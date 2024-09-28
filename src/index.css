@@ -27,3 +27,7 @@ button {
 .font-dm-sans {
   font-family: "DM Sans", sans-serif;
 }
+
+body {
+  scroll-behavior: smooth;
+}

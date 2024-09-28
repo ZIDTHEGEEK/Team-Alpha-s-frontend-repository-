@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const HomePage = () => {
   return (
     <div className="bg-white h-screen w-full flex flex-col-reverse xl:flex-row items-center overflow-hidden">
@@ -17,20 +19,20 @@ const HomePage = () => {
 
           {/* Button Container */}
           <div className="w-full flex items-center justify-start gap-6">
-            <a
-              href="/create-account"
+            <Link
+              to="/auth/create-account"
               className="bg-[#4BA2FF] py-2 px-4 rounded-md hover:shadow-md duration-300"
             >
               <span className="text-white font-medium">Create New Account</span>
-            </a>
-            <a
-              href="/login"
+            </Link>
+            <Link
+              to="/auth/login"
               className="group hover:bg-[#4BA2FF] duration-300 py-2 px-4 rounded-md hover:shadow-md"
             >
               <span className="text-[#4BA2FF] group-hover:no-underline group-hover:text-white duration-300">
                 I already have an account
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
