@@ -1,73 +1,105 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
+
   return (
-    <div>
-      <section className="login-section relative top-32 md:ml-25p ml-5p ">
-        <form action="">
-          <div className="login-content">
-            <h3 className="text-3xl font-medium">Login</h3>
+    <div className="flex flex-col items-start justify-center w-full h-screen">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold font-dm-sans text-[#0D1D54]">
+          Login
+        </h1>
+        <p className="text-[#404B7C] font-medium">
+          Thank you for getting back to CKYC
+        </p>
+      </div>
 
-            <p className="py-4 font-semibold">
-              Thank you for getting back to CKYC
-            </p>
+      <form
+        onSubmit={handleSubmit}
+        className="mt-10 w-full max-w-[700px] flex flex-col gap-y-5"
+      >
+        <div className="w-full xl:w-2/3">
+          <label className="block text-[#404B7C]">Email</label>
+
+          <div className="w-full mt-2">
+            <input
+              type="email"
+              placeholder="Enter email address"
+              className="w-full px-7 py-5 rounded-lg border border-zinc-200 outline-none shadow placeholder:text-[#D5D5D5]"
+            />
           </div>
+        </div>
 
-          <section className="pt-10">
-            <div className="email-input">
-              <label className=" block py-3"> Email </label>
-              <input
-                type="email"
-                placeholder="Enter email address"
-                className="border border-gray-300 rounded-lg  lg:w-2/5 w-3/5 xxl:w-32 h-14 px-7"
-              />
-            </div>
+        <div className="w-full xl:w-2/3">
+          <label className="block text-[#404B7C]"> Password</label>
 
-            <div className="password-input relative">
-              <label className="block py-3"> Password </label>
-              <input
-                type={passwordIsVisible ? "text" : "password"}
-                className="border border-gray-300 rounded-lg  lg:w-2/5 w-3/5 xxl:w-32 h-14 px-7"
-              />
-
-              <small className="block py-2 absolute r">
-                <a href="#"> Forget Password?</a>
-              </small>
-            </div>
-
+          <div className="relative w-full mt-2">
+            <input
+              type={passwordIsVisible ? "text" : "password"}
+              placeholder="Enter password"
+              className="w-full px-7 py-5 rounded-lg border border-zinc-200 outline-none shadow placeholder:text-[#D5D5D5] z-10"
+            />
             <button
               type="button"
+              className="absolute top-1/2 -translate-y-1/2 right-7 z-20"
               onClick={() => setPasswordIsVisible(!passwordIsVisible)}
             >
-              {passwordIsVisible ? <PiEyeClosedLight /> : <PiEyeLight />}
+              {passwordIsVisible ? (
+                <PiEyeLight className="text-zinc-600" size={22} />
+              ) : (
+                <PiEyeClosedLight className="text-zinc-600" size={22} />
+              )}
             </button>
+          </div>
 
-            <div className="absolute mt-11">
-              <input
-                type="submit"
-                value="Login"
-                className="inline-block cursor-pointer text-white text-base py-3 px-11 bg-skyblue font-semibold  hover:bg-blue-600 translate-y-0.5 rounded-lg"
-              />
-              <a
-                href=""
-                className="text-indigo-400 font-semibold cursor-pointer underline hover:text-indigo-600 ml-14"
-              >
-                Connect wallet
-              </a>
-            </div>
-          </section>
+          <div className="flex justify-end mt-2">
+            <Link to={"#"} className="text-sm text-[#404B7C]">
+              Forgot Password?
+            </Link>
+          </div>
+        </div>
 
-          <p className=" text-base pt-40 text-gray-400 font-semibold">
-            Don&lsquo;t have an account?
-            <a href="#" className="text-blue-800">
-              Create new account
-            </a>
-          </p>
-        </form>
-      </section>
+        <div className="mt-10 flex flex-col md:flex-row items-start md:items-center gap-x-14 gap-y-5">
+          <button
+            type="submit"
+            className="w-full md:w-fit bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] py-5 px-10 rounded-md shadow duration-300"
+          >
+            <span className="text-white font-medium">Login</span>
+          </button>
+
+          <button
+            type="button"
+            className="w-full md:w-fit group relative py-5 px-10 rounded-md overflow-hidden transition-all duration-300 hover:shadow focus:outline-none"
+          >
+            <span className="relative underline group-hover:no-underline transition-colors duration-500 bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] bg-clip-text text-transparent group-hover:text-white font-medium z-10">
+              Connect wallet
+            </span>
+
+            <span className="absolute inset-0 bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></span>
+          </button>
+        </div>
+      </form>
+
+      <p className="mt-5 text-[#9A9A9A]">
+        Don&lsquo;t have an account?
+        <Link
+          to="/auth/create-account"
+          className="bg-clip-text text-transparent ml-2"
+          style={{
+            backgroundImage: "linear-gradient(to bottom, #21C1FF, #1B7CE6)",
+          }}
+        >
+          Create new account
+        </Link>
+      </p>
     </div>
   )
 }
+
+export default LoginPage
