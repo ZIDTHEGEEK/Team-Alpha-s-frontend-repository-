@@ -72,98 +72,97 @@
   text-align: center;
   margin-top: 10px;
 }
-.loading-dot{
-width:50px;
+.loading-dot {
+  width: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   /* border: 2px solid; */
-    margin-top: 10px;
+  margin-top: 10px;
 }
-.dot{
+.dot {
   width: 10px;
   height: 10px;
   background-color: rgb(211, 209, 209);
-  margin:2px;
+  margin: 2px;
   border-radius: 100%;
 }
-.active{
-    background-color: rgb(116, 115, 115);
+.active {
+  background-color: rgb(116, 115, 115);
 }
 .failed {
   color: rgb(255, 111, 111);
   margin: 30px;
 }
-.failed p{
+.failed p {
   text-decoration: underline;
-cursor: pointer;
+  cursor: pointer;
 }
-.connected{
-    width:100%;
+.connected {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-flex-direction: column;
+  flex-direction: column;
 }
-.connected-footer{
+.connected-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width:100%;
+  width: 100%;
   font-size: 13px;
   font-weight: 700;
   /* border: 2px solid; */
   margin-top: 20px;
 }
-.disconnected{
-padding: 10px 20px;
-border: 1px solid red;
-border-radius: 10px;
-background-color: rgb(255, 205, 205);
+.disconnected {
+  padding: 10px 20px;
+  border: 1px solid red;
+  border-radius: 10px;
+  background-color: rgb(255, 205, 205);
 }
-.wallet-img{
+.wallet-img {
   width: 20px;
   height: 20px;
 }
-.address{
-   display: flex;
+.address {
+  display: flex;
   justify-content: start;
   align-items: center;
-  width:100%;
+  width: 100%;
   padding: 10px;
 }
 
-.connected-body{
+.connected-body {
   display: flex;
   align-items: center;
   /* justify-content: space-between; */
   width: 90%;
   border: 1px solid rgb(186, 186, 186);
-text-align: center;
-flex-direction: column;
-margin-top: 20px;
-padding: 10px;
-border-radius: 10px;
+  text-align: center;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 10px;
 }
-.connected-body .address p{
-margin-left: 10px;
+.connected-body .address p {
+  margin-left: 10px;
 }
-.view-token{
-    display: flex;
+.view-token {
+  display: flex;
   align-items: start;
   justify-content: start;
   /* border: 1px solid red; */
   width: 100%;
 }
-.copy{
-   display: flex;
+.copy {
+  display: flex;
   align-items: center;
   /* justify-content: space-between; */
   font-size: 13px;
   padding: 8px;
   cursor: pointer;
 }
-.copy p{
-
+.copy p {
   padding-left: 5px;
 }

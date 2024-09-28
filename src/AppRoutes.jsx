@@ -4,7 +4,6 @@ import IndexPage from "./views/index"
 import LoginPage from "./views/login"
 import SignUpPage from "./views/signup"
 import AuthLayout from "./components/layout/AuthLayout"
-import TestingPage from "./views/TestingModal"
 
 export default function AppRoutes() {
   return (
@@ -15,7 +14,6 @@ export default function AppRoutes() {
           <Route path="create-account" element={<SignUpPage />} />
           <Route path="login" element={<LoginPage />} />
         </Route>
-        <Route path="test-modal" element={<TestingPage />} />
       </Route>
 
       {/* Not found screen */}
