@@ -1,13 +1,21 @@
 import { Route, Routes } from "react-router-dom"
 import Layout from "./components/layout/Layout"
 import IndexPage from "./views/index"
+import LoginPage from "./views/login"
+import SignUpPage from "./views/signup"
+import AuthLayout from "./components/layout/AuthLayout"
 import TestingPage from "./views/TestingModal"
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="" element={<TestingPage />} />
+        <Route path="" element={<IndexPage />} />
+        <Route path="auth" element={<AuthLayout />}>
+          <Route path="create-account" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+        <Route path="test-modal" element={<TestingPage />} />
       </Route>
 
       {/* Not found screen */}
