@@ -8,7 +8,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="" element={<IndexPage />} />
-        <Route path="signup" element={<SignUp/>}/>
+        <Route path="signup" element={<SignUp />} />
       </Route>
 
       {/* Not found screen */}

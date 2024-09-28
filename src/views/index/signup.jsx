@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 const SignUp = () => {
   return (
@@ -6,13 +6,17 @@ const SignUp = () => {
       {/* Left Side with Form */}
       <div className="w-3/5 bg-white flex flex-col justify-center items-start p-12">
         <h1 className="text-3xl font-bold mb-4">Create an Account</h1>
-        <p className="text-gray-500 text-md mb-8">Sign up with us, let's make your information safe.</p>
+        <p className="text-gray-500 text-md mb-8">
+          Sign up with us, let's make your information safe.
+        </p>
 
         <form className="w-full">
           {/* Full Name & Username Row */}
           <div className="flex space-x-4 mb-4">
             <div className="w-1/2">
-              <label className="block text-gray-700 text-md mb-1">Full Name</label>
+              <label className="block text-gray-700 text-md mb-1">
+                Full Name
+              </label>
               <input
                 type="text"
                 placeholder="Enter your full name"
@@ -20,7 +24,9 @@ const SignUp = () => {
               />
             </div>
             <div className="w-1/2">
-              <label className="block text-gray-700 text-md mb-1">Username</label>
+              <label className="block text-gray-700 text-md mb-1">
+                Username
+              </label>
               <input
                 type="text"
                 placeholder="Enter nickname"
@@ -41,7 +47,9 @@ const SignUp = () => {
 
           {/* Phone Number (Optional) */}
           <div className="mb-4">
-            <label className="block text-gray-700 text-md mb-1">Phone Number (Optional)</label>
+            <label className="block text-gray-700 text-md mb-1">
+              Phone Number (Optional)
+            </label>
             <input
               type="text"
               placeholder="Enter your phone number"
@@ -57,7 +65,7 @@ const SignUp = () => {
 
         {/* Already have an account */}
         <p className="mt-6 text-md">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <a href="/login" className="text-blue-500">
             Log in
           </a>
@@ -77,7 +85,7 @@ const SignUp = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp
