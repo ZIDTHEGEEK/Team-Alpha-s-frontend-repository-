@@ -1,15 +1,47 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { toast } from "react-hot-toast"
+import { isValidEmail } from "../../../utils"
+import { Link, useNavigate } from "react-router-dom"
+import { useLoginMutation } from "../../../app/hooks/auth"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
-import ConnectWalletModal from "../../components/Modal/Modal"
+import ConnectWalletModal from "../../../components/modals/ConnectWalletModal"
 
 const LoginPage = () => {
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
-  const [connectWalletModalIsOpen, setConnectWalletModalIsOpen] =
-    useState(false)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const { mutateAsync: login, isPending } = useLoginMutation()
+
+  const handleFormIsValid = () => {
+    if (!isValidEmail(email)) {
+      toast.error("Enter a valid email")
+      return false
+    }
+
+    if (password.length === 0) {
+      toast.error("Enter a valid password")
+      return false
+    }
+    return true
+  }
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault()
+      if (!handleFormIsValid()) return
+
+      const response = await login({ email, password })
+
+      if (response.status === 200) {
+        toast.success("Logged in successfully")
+        setTimeout(() => navigate("/dashboard"), 1000)
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error(`Error occured: ${error.message}`)
+    }
   }
 
   return (
@@ -29,29 +61,41 @@ const LoginPage = () => {
           className="mt-10 w-full max-w-[700px] flex flex-col gap-y-5"
         >
           <div className="w-full xl:w-2/3">
-            <label className="block text-[#404B7C]">Email</label>
+            <label className="block text-[#404B7C]" htmlFor="email">
+              Email
+            </label>
 
             <div className="w-full mt-2">
               <input
+                id="email"
+                name="email"
                 type="email"
+                value={email}
                 placeholder="Enter email address"
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-7 py-5 rounded-lg border border-zinc-200 outline-none shadow placeholder:text-[#D5D5D5]"
               />
             </div>
           </div>
 
-          <div className="w-full xl:w-2/3">
-            <label className="block text-[#404B7C]"> Password</label>
+          <div className="relative w-full xl:w-2/3">
+            <label className="block text-[#404B7C]" htmlFor="password">
+              Password
+            </label>
 
             <div className="relative w-full mt-2">
               <input
-                type={passwordIsVisible ? "text" : "password"}
+                id="password"
+                name="password"
+                value={password}
                 placeholder="Enter password"
-                className="w-full px-7 py-5 rounded-lg border border-zinc-200 outline-none shadow placeholder:text-[#D5D5D5] z-10"
+                onChange={(e) => setPassword(e.target.value)}
+                type={passwordIsVisible ? "text" : "password"}
+                className="w-full px-7 py-5 rounded-lg border border-zinc-200 outline-none shadow placeholder:text-[#D5D5D5] z-0"
               />
               <button
                 type="button"
-                className="absolute top-1/2 -translate-y-1/2 right-7 z-20"
+                className="absolute top-1/2 -translate-y-1/2 right-7 z-10"
                 onClick={() => setPasswordIsVisible(!passwordIsVisible)}
               >
                 {passwordIsVisible ? (
@@ -69,25 +113,16 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="mt-10 flex flex-col md:flex-row items-start md:items-center gap-x-14 gap-y-5">
+          <div className="relative mt-10 flex flex-col md:flex-row items-start md:items-center gap-x-14 gap-y-5">
             <button
               type="submit"
+              disabled={isPending}
               className="w-full md:w-fit bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] py-5 px-10 rounded-md shadow duration-300"
             >
               <span className="text-white font-medium">Login</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => setConnectWalletModalIsOpen(true)}
-              className="w-full md:w-fit group relative py-5 px-10 rounded-md overflow-hidden transition-all duration-300 hover:shadow focus:outline-none"
-            >
-              <span className="relative underline group-hover:no-underline transition-colors duration-500 bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] bg-clip-text text-transparent group-hover:text-white font-medium z-10">
-                Connect wallet
-              </span>
-
-              <span className="absolute inset-0 bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"></span>
-            </button>
+            <ConnectWalletModal userIsLoggingIn={isPending} />
           </div>
         </form>
 
@@ -104,10 +139,6 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
-
-      {connectWalletModalIsOpen && (
-        <ConnectWalletModal setOnClick={setConnectWalletModalIsOpen} />
-      )}
     </>
   )
 }

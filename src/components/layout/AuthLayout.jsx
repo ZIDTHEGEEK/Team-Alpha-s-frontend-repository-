@@ -5,7 +5,7 @@ const AuthLayout = () => {
     <div className="relative w-full h-screen flex flex-col xl:flex-row xl:overflow-hidden">
       <div className="xl:relative w-full xl:w-[30%] xl:max-h-none xl:h-full bg-gradient-to-b from-[#21C1FF] to-[#1B7CE6] py-10 pl-10 xl:pl-20">
         <Link to={"/"}>
-          <img src="/SuiFig.png" alt="SuiMail Logo" className="w-32 xl:w-40" />
+          <img src="/png/SuiFig.png" alt="SuiMail Logo" className="w-32 xl:w-40" />
         </Link>
       </div>
 
