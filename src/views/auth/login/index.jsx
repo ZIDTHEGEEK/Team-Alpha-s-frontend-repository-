@@ -32,6 +32,7 @@ const LoginPage = () => {
       e.preventDefault()
       if (!handleFormIsValid()) return
 
+      // Returns { token, user: { email, fullname, username, walletAddress, phone  } }
       const response = await login({ email, password })
 
       if (response.status === 200) {
