@@ -1,56 +1,59 @@
-import React, { useState } from 'react';
-import { FaStar, FaStarHalfAlt } from 'react-icons/fa'; // Icons for starred and unstarred emails
-import { FiRefreshCcw } from 'react-icons/fi'; // Reload icon
+import React, { useState } from "react"
+import { FaStar, FaStarHalfAlt } from "react-icons/fa" // Icons for starred and unstarred emails
+import { FiRefreshCcw } from "react-icons/fi" // Reload icon
 
 const EmailList = () => {
   const [emails, setEmails] = useState([
     {
       id: 1,
-      subject: 'Welcome to SuiMail!',
-      sender: 'SuiMail Team',
-      message: 'Thank you for signing up to SuiMail. We are thrilled to have you on board and look forward to providing you with secure and private email solutions.',
+      subject: "Welcome to SuiMail!",
+      sender: "SuiMail Team",
+      message:
+        "Thank you for signing up to SuiMail. We are thrilled to have you on board and look forward to providing you with secure and private email solutions.",
       starred: true,
-      date: '2024-09-29',
+      date: "2024-09-29",
     },
     {
       id: 2,
-      subject: 'Your Security Update',
-      sender: 'Security Team',
-      message: 'This is a quick update regarding your security settings. Please review the settings to ensure your account is secure.',
+      subject: "Your Security Update",
+      sender: "Security Team",
+      message:
+        "This is a quick update regarding your security settings. Please review the settings to ensure your account is secure.",
       starred: false,
-      date: '2024-09-28',
+      date: "2024-09-28",
     },
     {
       id: 3,
-      subject: 'Meeting Reminder',
-      sender: 'John Doe',
-      message: 'This is a friendly reminder for our upcoming meeting scheduled on Monday. Don’t forget to review the attached documents.',
+      subject: "Meeting Reminder",
+      sender: "John Doe",
+      message:
+        "This is a friendly reminder for our upcoming meeting scheduled on Monday. Don’t forget to review the attached documents.",
       starred: true,
-      date: '2024-09-27',
+      date: "2024-09-27",
     },
-  ]);
+  ])
 
-  const [selectedEmails, setSelectedEmails] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [selectedEmails, setSelectedEmails] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
 
   // Toggle selection for individual email
   const toggleSelectEmail = (id) => {
     if (selectedEmails.includes(id)) {
-      setSelectedEmails(selectedEmails.filter((emailId) => emailId !== id));
+      setSelectedEmails(selectedEmails.filter((emailId) => emailId !== id))
     } else {
-      setSelectedEmails([...selectedEmails, id]);
+      setSelectedEmails([...selectedEmails, id])
     }
-  };
+  }
 
   // Toggle select all emails
   const toggleSelectAll = () => {
     if (selectAll) {
-      setSelectedEmails([]);
+      setSelectedEmails([])
     } else {
-      setSelectedEmails(emails.map((email) => email.id));
+      setSelectedEmails(emails.map((email) => email.id))
     }
-    setSelectAll(!selectAll);
-  };
+    setSelectAll(!selectAll)
+  }
 
   // Toggle starred status
   const toggleStarred = (id) => {
@@ -58,16 +61,16 @@ const EmailList = () => {
       emails.map((email) =>
         email.id === id ? { ...email, starred: !email.starred } : email
       )
-    );
-  };
+    )
+  }
 
   // Shorten message preview
   const getMessagePreview = (message) => {
     if (message.length > 50) {
-      return message.substring(0, 50) + '...'; // Limit message preview to 50 characters
+      return message.substring(0, 50) + "..." // Limit message preview to 50 characters
     }
-    return message;
-  };
+    return message
+  }
 
   return (
     <div className="p-6">
@@ -80,7 +83,10 @@ const EmailList = () => {
             onChange={toggleSelectAll}
             className="cursor-pointer"
           />
-          <button onClick={() => window.location.reload()} className="text-gray-600">
+          <button
+            onClick={() => window.location.reload()}
+            className="text-gray-600"
+          >
             <FiRefreshCcw size={24} />
           </button>
         </div>
@@ -101,7 +107,7 @@ const EmailList = () => {
                 onChange={() => toggleSelectEmail(email.id)}
                 className="cursor-pointer"
               />
-              
+
               {/* Starred Icon */}
               <div
                 onClick={() => toggleStarred(email.id)}
@@ -131,7 +137,7 @@ const EmailList = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmailList;
+export default EmailList
