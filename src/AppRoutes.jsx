@@ -3,6 +3,7 @@ import Layout from "./components/layout/Layout"
 import IndexPage from "./views/index"
 import LoginPage from "./views/auth/login"
 import EmailList from "./views/Email-list"
+import MessageView from "./components/email message/MessageView"
 import AuthLayout from "./components/layout/AuthLayout"
 import CreateAccountPage from "./views/auth/createAccount"
 
@@ -12,6 +13,7 @@ export default function AppRoutes() {
       <Route path="/" element={<Layout />}>
         <Route path="" element={<IndexPage />} />
         <Route path="email" element={<EmailList />} />
+        <Route path="view" element={<MessageView />} />
         <Route path="auth" element={<AuthLayout />}>
           <Route path="create-account" element={<CreateAccountPage />} />
           <Route path="login" element={<LoginPage />} />
