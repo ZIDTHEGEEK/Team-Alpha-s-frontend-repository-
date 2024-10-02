@@ -7,7 +7,7 @@ import VerticalDesktopMenu from "../ui/VerticalDesktopMenu"
 import ComposeEmailForm from "../ui/ComposeEmailForm"
 
 const DashboardLayout = () => {
-  const [sideBarIsOpen, setSideBarIsOpen] = useState(true)
+  const [sideBarIsOpen, setSideBarIsOpen] = useState(false)
   const [userSettingsIsOpen, setUserSettingsIsOpen] = useState(false)
   const [composeEmailFormIsActive, setComposeEmailFormIsActive] =
     useState(false)
