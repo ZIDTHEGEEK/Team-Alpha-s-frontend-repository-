@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useLoginMutation } from "../../../app/hooks/auth"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
 import ConnectWalletModal from "../../../components/modals/ConnectWalletModal"
+import { setAuthToken } from "../../../utils/helpers"
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -37,6 +38,8 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         toast.success("Logged in successfully")
+        const { token } = response.data
+        setAuthToken(token)
         setTimeout(() => navigate("/dashboard"), 1000)
       }
     } catch (error) {
