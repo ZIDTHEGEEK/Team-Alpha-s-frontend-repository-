@@ -78,7 +78,10 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
             </div>
 
             <div className="w-full">
-              <button type="submit" className="bg-[#21C1FF] px-6 py-2 rounded-md">
+              <button
+                type="submit"
+                className="bg-[#21C1FF] px-6 py-2 rounded-md"
+              >
                 <span className="text-white">Send</span>
               </button>
             </div>
