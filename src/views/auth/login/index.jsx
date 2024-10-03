@@ -1,14 +1,13 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
+import { Link } from "react-router-dom"
 import { isValidEmail } from "../../../utils"
-import { Link, useNavigate } from "react-router-dom"
+import { setAuthToken } from "../../../utils/helpers"
 import { useLoginMutation } from "../../../app/hooks/auth"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
 import ConnectWalletModal from "../../../components/modals/ConnectWalletModal"
-import { setAuthToken } from "../../../utils/helpers"
 
 const LoginPage = () => {
-  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
@@ -40,7 +39,7 @@ const LoginPage = () => {
         toast.success("Logged in successfully")
         const { token } = response.data
         setAuthToken(token)
-        setTimeout(() => navigate("/dashboard"), 1000)
+        setTimeout(() => window.location.assign("/app"), 1000)
       }
     } catch (error) {
       console.error(error)

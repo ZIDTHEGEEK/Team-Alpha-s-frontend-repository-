@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom"
 import Layout from "./components/layout/Layout"
 import IndexPage from "./views/index"
 import LoginPage from "./views/auth/login"
+import ProfilePage from "./views/profile"
+import EmailState from "./views/state"
 import AuthLayout from "./components/layout/AuthLayout"
 import CreateAccountPage from "./views/auth/createAccount"
 import DashboardLayout from "./components/layout/DashboardLayout"
@@ -14,6 +16,8 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="" element={<IndexPage />} />
+        <Route path="active" element={<EmailState />} />
+        <Route path="profile" element={<ProfilePage />} />
         <Route path="auth" element={<AuthLayout />}>
           <Route path="create-account" element={<CreateAccountPage />} />
           <Route path="login" element={<LoginPage />} />
