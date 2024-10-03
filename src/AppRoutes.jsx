@@ -18,8 +18,8 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="" element={<IndexPage />} />
-        <Route path="active" element={<EmailState/>} />
-        <Route path="profile" element={<ProfilePage/> }/>
+        <Route path="active" element={<EmailState />} />
+        <Route path="profile" element={<ProfilePage />} />
         <Route path="auth" element={<AuthLayout />}>
           <Route path="create-account" element={<CreateAccountPage />} />
           <Route path="login" element={<LoginPage />} />

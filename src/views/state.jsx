@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { FaPaperclip } from 'react-icons/fa'; // Attachment icon
+import React, { useState } from "react"
+import { FaPaperclip } from "react-icons/fa" // Attachment icon
 
 const EmailContent = ({ email }) => {
-  const [replyMessage, setReplyMessage] = useState(''); // State to track reply message
-  const [showSendButton, setShowSendButton] = useState(false); // State to track if the send button should appear
-  const [attachedFile, setAttachedFile] = useState(null); // State to store attached file
+  const [replyMessage, setReplyMessage] = useState("") // State to track reply message
+  const [showSendButton, setShowSendButton] = useState(false) // State to track if the send button should appear
+  const [attachedFile, setAttachedFile] = useState(null) // State to store attached file
 
   // Handle reply message typing
   const handleReplyChange = (e) => {
-    setReplyMessage(e.target.value);
-    setShowSendButton(e.target.value.trim().length > 0); // Show send button when user types something
-  };
+    setReplyMessage(e.target.value)
+    setShowSendButton(e.target.value.trim().length > 0) // Show send button when user types something
+  }
 
   // Handle file attachment
   const handleFileAttach = (e) => {
-    const file = e.target.files[0];
-    setAttachedFile(file);
-  };
+    const file = e.target.files[0]
+    setAttachedFile(file)
+  }
 
   return (
     <div className="w-full h-screen p-6 flex flex-col">
@@ -64,7 +64,10 @@ const EmailContent = ({ email }) => {
         {/* Attachment and Send Section */}
         <div className="flex justify-between items-center mt-2">
           {/* Attachment icon */}
-          <label htmlFor="fileInput" className="flex items-center text-blue-500 cursor-pointer">
+          <label
+            htmlFor="fileInput"
+            className="flex items-center text-blue-500 cursor-pointer"
+          >
             <FaPaperclip className="mr-2" />
             Attach File
           </label>
@@ -91,18 +94,18 @@ const EmailContent = ({ email }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // Example email data
 const emailData = {
-  subject: 'Meeting Reminder: Monday',
-  senderName: 'John Doe',
-  senderAddress: 'john.doe@example.com',
-  senderProfileImage: 'https://via.placeholder.com/150', // Placeholder image for sender profile
-  date: 'September 29, 2024',
+  subject: "Meeting Reminder: Monday",
+  senderName: "John Doe",
+  senderAddress: "john.doe@example.com",
+  senderProfileImage: "https://via.placeholder.com/150", // Placeholder image for sender profile
+  date: "September 29, 2024",
   body: `This is a reminder for our meeting scheduled for Monday at 10:00 AM. Please don't forget to review the attached agenda and let me know if you have any questions. Looking forward to the meeting.`,
-};
+}
 
 const EmailContentPage = () => {
   return (
@@ -117,7 +120,7 @@ const EmailContentPage = () => {
         <EmailContent email={emailData} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmailContentPage;
+export default EmailContentPage

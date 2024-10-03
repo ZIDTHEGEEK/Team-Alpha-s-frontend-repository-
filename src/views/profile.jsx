@@ -1,39 +1,41 @@
-import React, { useState } from "react";
-import { FaCamera, FaWallet } from "react-icons/fa";
-import Select from "react-select";
-import flags from 'country-flag-icons/react/3x2'; // For country flags
+import React, { useState } from "react"
+import { FaCamera, FaWallet } from "react-icons/fa"
+import Select from "react-select"
+import flags from "country-flag-icons/react/3x2" // For country flags
 
 const countries = [
-  { value: 'US', label: 'United States', flag: flags.US },
-  { value: 'CA', label: 'Canada', flag: flags.CA },
-  { value: 'NG', label: 'Nigeria', flag: flags.NG }, // Added Nigeria
+  { value: "US", label: "United States", flag: flags.US },
+  { value: "CA", label: "Canada", flag: flags.CA },
+  { value: "NG", label: "Nigeria", flag: flags.NG }, // Added Nigeria
   // Add more countries as needed
-];
+]
 
 const ProfilePage = () => {
-  const [isEditing, setIsEditing] = useState(false); // To toggle edit mode
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [profileImage, setProfileImage] = useState("https://via.placeholder.com/150"); // Default profile image
+  const [isEditing, setIsEditing] = useState(false) // To toggle edit mode
+  const [selectedCountry, setSelectedCountry] = useState(null)
+  const [walletConnected, setWalletConnected] = useState(false)
+  const [profileImage, setProfileImage] = useState(
+    "https://via.placeholder.com/150"
+  ) // Default profile image
 
   const handleEdit = () => {
-    setIsEditing(!isEditing);
-  };
+    setIsEditing(!isEditing)
+  }
 
   const handleWalletConnect = () => {
-    setWalletConnected(!walletConnected);
-  };
+    setWalletConnected(!walletConnected)
+  }
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setProfileImage(reader.result); 
-      };
-      reader.readAsDataURL(file);
+        setProfileImage(reader.result)
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-gray-100 p-5 m-0">
@@ -129,7 +131,7 @@ const ProfilePage = () => {
                   <img
                     src={country.flag}
                     alt={country.label}
-                    style={{ width: '20px', marginRight: '10px' }}
+                    style={{ width: "20px", marginRight: "10px" }}
                   />
                   {country.label}
                 </div>
@@ -159,7 +161,9 @@ const ProfilePage = () => {
 
           {/* Wallet Address */}
           <div className="col-span-2">
-            <label className="block text-sm font-medium">My Wallet Address</label>
+            <label className="block text-sm font-medium">
+              My Wallet Address
+            </label>
             {walletConnected ? (
               <div className="mt-2">
                 <p className="text-green-600">Connected: 0x123...456</p>
@@ -192,7 +196,7 @@ const ProfilePage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage
