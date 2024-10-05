@@ -1,11 +1,7 @@
 import PropTypes from "prop-types"
 import { formatWalletAddress } from "../../../utils"
 
-const WalletConnectedContainer = ({
-  icon,
-  address,
-  walletName,
-}) => {
+const WalletConnectedContainer = ({ icon, address, walletName }) => {
   // const handleCopyAddressToClipboard = () => {
   //   navigator.clipboard.writeText(address)
   // }
