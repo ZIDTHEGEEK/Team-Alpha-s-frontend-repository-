@@ -2,12 +2,14 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { Link } from "react-router-dom"
 import { isValidEmail } from "../../../utils"
-import { setAuthToken } from "../../../utils/helpers"
 import { useLoginMutation } from "../../../app/hooks/auth"
+import { AuthService } from "../../../services/auth.service"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
 import ConnectWalletModal from "../../../components/modals/ConnectWalletModal"
 
 const LoginPage = () => {
+  const authService = new AuthService()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
@@ -38,11 +40,15 @@ const LoginPage = () => {
       if (response.status === 200) {
         toast.success("Logged in successfully")
         const { token } = response.data
-        setAuthToken(token)
+        authService.setJwtToken(token)
         setTimeout(() => window.location.assign("/app"), 1000)
       }
     } catch (error) {
       console.error(error)
+      if (error.response.data.message.toLowerCase() === "user not found") {
+        toast.error(`User does not exists. Please Create an account.`)
+        return
+      }
       toast.error(`Error occured: ${error.message}`)
     }
   }

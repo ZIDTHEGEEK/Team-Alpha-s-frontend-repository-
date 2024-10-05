@@ -4,35 +4,59 @@ import {
   useWallets,
   useConnectWallet,
   useCurrentAccount,
-  useDisconnectWallet,
 } from "@mysten/dapp-kit"
+import { toast } from "react-hot-toast"
 import { IoCloseOutline } from "react-icons/io5"
 import WalletsContainer from "./WalletsContainer"
+import { AuthService } from "../../../services/auth.service"
 import WalletConnectedContainer from "./WalletConnectedContainer"
 import WalletConnectingContainer from "./WalletConnectingContainer"
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
+import { useConnectWalletAuthenticationMutation } from "../../../app/hooks/auth"
 
 const ConnectWalletModal = ({ userIsLoggingIn }) => {
+  const authService = new AuthService()
   const wallets = useWallets()
   const account = useCurrentAccount()
   const [isOpen, setIsOpen] = useState(false)
   const [walletName, setWalletName] = useState("")
 
   const { mutateAsync: connect, isPending } = useConnectWallet()
-  const { mutateAsync: disconnect } = useDisconnectWallet()
+  const { mutateAsync: connectWalletAuthenticate } =
+    useConnectWalletAuthenticationMutation()
+
+  const handleConnectWalletSuccessCallback = async (walletAddress) => {
+    try {
+      const response = await connectWalletAuthenticate({ walletAddress })
+
+      if (response.status === 200) {
+        toast.success("Logged in successfully")
+        const { token } = response.data
+        authService.setJwtToken(token)
+        setTimeout(
+          () =>
+            window.location.assign(
+              response.data.user ? "/app" : "/app/set-profile"
+            ),
+          1000
+        )
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(`Error connecting wallet: ${error.message}`)
+    }
+  }
 
   const handleConnectWallet = async (wallet) => {
     try {
       setWalletName(wallet.name)
-      await connect({ wallet }, { onSuccess: () => console.log("Connected") })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const handleDisconnectWallet = async () => {
-    try {
-      await disconnect()
+      await connect(
+        { wallet },
+        {
+          onSuccess: (values) =>
+            handleConnectWalletSuccessCallback(values.accounts[0].address),
+        }
+      )
     } catch (error) {
       console.error(error)
     }
@@ -95,7 +119,6 @@ const ConnectWalletModal = ({ userIsLoggingIn }) => {
                     icon={account.icon}
                     walletName={walletName}
                     address={account.address}
-                    handleDisconnectWallet={handleDisconnectWallet}
                   />
                 )}
               </div>

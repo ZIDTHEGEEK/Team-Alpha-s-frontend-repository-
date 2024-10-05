@@ -1,29 +1,38 @@
-import { getAuthToken } from "../../utils/helpers"
-import { axiosInstance } from "./constants"
+import axios from "axios"
+import { VITE_API_URL } from "../../config"
+import { AuthService } from "../../services/auth.service"
+
+const axiosInstance = axios.create({
+  baseURL: VITE_API_URL,
+  timeout: 10 * 1000,
+})
 
 async function post(url, data) {
-  const token = getAuthToken()
+  const authService = new AuthService()
+
   return await axiosInstance.post(url, data, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${authService.getJwtToken()}`,
     },
   })
 }
 
 async function get(url) {
-  const token = getAuthToken()
+  const authService = new AuthService()
+
   return await new axiosInstance.get(url, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${authService.getJwtToken()}`,
     },
   })
 }
 
 async function put(url, data) {
-  const token = getAuthToken()
+  const authService = new AuthService()
+
   return await new axiosInstance.put(url, data, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${authService.getJwtToken()}`,
     },
   })
 }

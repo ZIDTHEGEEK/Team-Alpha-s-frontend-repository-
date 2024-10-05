@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { FaPaperclip } from "react-icons/fa" // Attachment icon
 
 const EmailContent = ({ email }) => {
