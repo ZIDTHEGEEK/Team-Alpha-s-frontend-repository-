@@ -9,8 +9,8 @@ const WalletButton = ({ wallet, onClick }) => {
     >
       <img
         src={wallet.icon}
-        alt={`${wallet.name}-${wallet.version}`}
         className="w-[40px]"
+        alt={`${wallet.name}-${wallet.version}`}
       />
       <span>{wallet.name}</span>
     </button>

@@ -12,3 +12,9 @@ export const useLoginMutation = () => {
     mutationFn: (value) => post("auth/login", value),
   })
 }
+
+export const useConnectWalletAuthenticationMutation = () => {
+  return useMutation({
+    mutationFn: (value) => post("auth/connect-wallet", value),
+  })
+}

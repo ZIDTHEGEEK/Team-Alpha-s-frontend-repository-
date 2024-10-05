@@ -1,13 +1,24 @@
-import PropTypes from "prop-types"
+import forge from "node-forge"
 import { useState } from "react"
-import { MdClose } from "react-icons/md"
+import PropTypes from "prop-types"
+import { toast } from "react-hot-toast"
+import { MailService } from "../../services/mail.service"
+import { useGetUserWalletByEmailMutation } from "../../app/hooks/user"
+import {
+  encryptData,
+  // encryptAESKeyWithPublicKey,
+} from "../../utils/encryption"
 
 const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
+  const mailService = new MailService()
+
   const [emailPayload, setEmailPayload] = useState({
     recipient: "",
     subject: "",
     body: "",
   })
+
+  const { mutateAsync: getUserWallet } = useGetUserWalletByEmailMutation()
 
   const handleOnChange = (e) => {
     const { name, value } = e.target
@@ -18,8 +29,33 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const getAesKey = () => forge.random.getBytesSync(16)
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault()
+
+      const aesKey = getAesKey()
+      const emailBody = JSON.stringify(emailPayload)
+
+      // const encryptedAesKey = encryptAESKeyWithPublicKey(aesKey)
+      const encryptedEmailBody = await encryptData(emailBody, aesKey)
+
+      const response = await getUserWallet({ email: emailPayload.recipient })
+
+      if (response.status === 201 && response.data) {
+        const walletAddress = response.data
+
+        const transactionResponse = await mailService.sendMail({
+          body: encryptedEmailBody,
+          recipient: walletAddress,
+        })
+        console.log(transactionResponse)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(`Error occured: ${error.message}`)
+    }
   }
 
   return (
@@ -31,7 +67,11 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
               type="button"
               onClick={() => setComposeEmailFormIsActive(false)}
             >
-              <MdClose size={22} />
+              <img
+                src="/svg/email-compose-close.svg"
+                alt="Compose form close"
+                className="w-[23px]"
+              />
             </button>
           </div>
           <form
@@ -41,7 +81,8 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
             <div className="h-fit flex flex-col">
               <div className="w-full">
                 <input
-                  type="text"
+                  required
+                  type="email"
                   name="recipient"
                   id="recipient"
                   value={emailPayload.recipient}
@@ -54,6 +95,7 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
               {/*  */}
               <div className="w-full">
                 <input
+                  required
                   type="text"
                   name="subject"
                   id="subject"
@@ -67,12 +109,13 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
               {/*  */}
               <div className="w-full">
                 <textarea
+                  required
                   name="body"
                   id="body"
                   placeholder="Body text"
                   value={emailPayload.body}
                   onChange={handleOnChange}
-                  className="w-full border-none outline-none py-2 px-2"
+                  className="w-full border-none outline-none py-2 px-2 min-h-[37vh]"
                 ></textarea>
               </div>
             </div>

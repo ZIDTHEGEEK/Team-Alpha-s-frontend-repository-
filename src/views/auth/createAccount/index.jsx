@@ -2,12 +2,13 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { Link, useNavigate } from "react-router-dom"
 import { cleanText, isValidEmail } from "../../../utils"
-import { handleGenerateNonce } from "../../../utils/helpers"
+import { AuthService } from "../../../services/auth.service"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
 import { useCreateAccountMutation } from "../../../app/hooks/auth"
 
 const CreateAccountPage = () => {
   const navigate = useNavigate()
+  const authService = new AuthService()
   const [email, setEmail] = useState("")
   const [fullName, setFullName] = useState("")
   const [username, setUsername] = useState("")
@@ -45,13 +46,12 @@ const CreateAccountPage = () => {
       e.preventDefault()
       if (!handleFormIsValid()) return
 
-      const { publicKey, nonce } = handleGenerateNonce()
+      const nonce = authService.generateNonce()
 
       const createAccountData = {
-        phone,
         nonce,
         password,
-        publicKey,
+        phone: cleanText(phone),
         email: cleanText(email),
         fullname: cleanText(fullName),
         username: cleanText(username),
@@ -99,6 +99,7 @@ const CreateAccountPage = () => {
 
             <div className="w-full mt-2">
               <input
+                required
                 type="text"
                 id="fullname"
                 name="fullname"
@@ -117,6 +118,7 @@ const CreateAccountPage = () => {
 
             <div className="w-full mt-2">
               <input
+                required
                 type="text"
                 id="username"
                 name="username"
@@ -137,6 +139,7 @@ const CreateAccountPage = () => {
 
           <div className="w-full mt-2">
             <input
+              required
               id="email"
               name="email"
               type="email"
@@ -175,6 +178,7 @@ const CreateAccountPage = () => {
 
           <div className="relative w-full mt-2">
             <input
+              required
               id="password"
               name="password"
               value={password}

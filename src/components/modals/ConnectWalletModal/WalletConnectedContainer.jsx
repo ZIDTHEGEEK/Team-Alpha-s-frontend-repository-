@@ -2,21 +2,20 @@ import PropTypes from "prop-types"
 import { formatWalletAddress } from "../../../utils"
 
 const WalletConnectedContainer = ({
-  walletName,
   icon,
   address,
-  handleDisconnectWallet,
+  walletName,
 }) => {
-  const handleCopyAddressToClipboard = () => {
-    navigator.clipboard.writeText(address)
-  }
+  // const handleCopyAddressToClipboard = () => {
+  //   navigator.clipboard.writeText(address)
+  // }
 
-  const handleViewOnExplorer = () => {
-    window.open(
-      `https://suiexplorer.com/address/${address}?network=mainnet`,
-      "_blank"
-    )
-  }
+  // const handleViewOnExplorer = () => {
+  //   window.open(
+  //     `https://suiexplorer.com/address/${address}?network=mainnet`,
+  //     "_blank"
+  //   )
+  // }
 
   return (
     <div className="min-w-[75%] w-fit mx-auto">
@@ -30,46 +29,17 @@ const WalletConnectedContainer = ({
           <p>{formatWalletAddress(address)}</p>
         </div>
 
-        <div className="flex items-center gap-10">
-          <button
-            type="button"
-            className="flex items-center gap-2"
-            onClick={handleCopyAddressToClipboard}
-          >
-            <img
-              src="/svg/copy-line-icon.svg"
-              alt="Copy icon"
-              className="w-[14px]"
-            />
-            <span className="text-sm text-[#616161]">Copy address</span>
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-2"
-            onClick={handleViewOnExplorer}
-          >
-            <img
-              src="/svg/view-on-explorer-icon.svg"
-              alt="Copy icon"
-              className="w-[14px]"
-            />
-            <span className="text-sm text-[#616161]">View on explorer</span>
-          </button>
+        <div className="flex flex-col gap-2">
+          <p className="text-emerald-500 font-medium">
+            Wallet connected successfully
+          </p>
+          <span className="text-xs text-[#9A9A9A]">
+            redirecting to dashboard...
+          </span>
         </div>
       </div>
 
-      <div className="mt-5 w-full flex items-center justify-between">
-        <p className="text-xs">Connected with {walletName}</p>
-
-        <button
-          type="button"
-          className="bg-[#F7F9FF] border border-[#4BA2FF] px-5 py-3 rounded-lg"
-          onClick={handleDisconnectWallet}
-        >
-          Disconnect
-        </button>
-      </div>
+      <div className="mt-5 w-full flex items-center justify-between"></div>
     </div>
   )
 }
@@ -78,7 +48,6 @@ WalletConnectedContainer.propTypes = {
   icon: PropTypes.string,
   address: PropTypes.string,
   walletName: PropTypes.string,
-  handleDisconnectWallet: PropTypes.func.isRequired,
 }
 
 export default WalletConnectedContainer

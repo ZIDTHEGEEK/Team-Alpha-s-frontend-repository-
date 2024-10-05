@@ -1,7 +1,7 @@
-import React, { useState } from "react"
-import { FaCamera, FaWallet } from "react-icons/fa"
+import { useState } from "react"
 import Select from "react-select"
-import flags from "country-flag-icons/react/3x2" // For country flags
+import flags from "country-flag-icons/react/3x2"
+import { FaCamera, FaWallet } from "react-icons/fa"
 
 const countries = [
   { value: "US", label: "United States", flag: flags.US },
