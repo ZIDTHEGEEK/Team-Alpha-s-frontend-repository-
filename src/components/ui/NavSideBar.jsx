@@ -10,6 +10,7 @@ import { MdInbox, MdOutlineStarPurple500 } from "react-icons/md"
 import clsx from "clsx"
 import { Link } from "react-router-dom"
 
+
 const routes = [
   { icon: MdInbox, label: "Inbox", route: "" },
   {
@@ -42,6 +43,12 @@ const routes = [
     label: "Trash",
     route: "/trash",
   },
+  // {
+  //   icon: IoMdTrash,
+  //   label: "Logout",
+  //   route: {Logout},
+  // },
+
 ]
 
 const NavSideBar = ({
@@ -100,7 +107,9 @@ const NavSideBar = ({
           <span className="text-lg">Compose</span>
         </button>
       </div>
-
+      {
+      
+      }
       <div className="flex-1 h-full flex flex-col gap-3 mt-5">
         {routes.map((route) => (
           <div
@@ -129,8 +138,10 @@ const NavSideBar = ({
             </span>
           </div>
         ))}
+
       </div>
     </div>
+    
   )
 }
 
