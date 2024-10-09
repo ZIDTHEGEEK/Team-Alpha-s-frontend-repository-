@@ -41,12 +41,7 @@ const routes = [
     icon: IoMdTrash,
     label: "Trash",
     route: "/trash",
-  },
-  // {
-  //   icon: IoMdTrash,
-  //   label: "Logout",
-  //   route: {Logout},
-  // },
+  }
 ]
 
 const NavSideBar = ({
