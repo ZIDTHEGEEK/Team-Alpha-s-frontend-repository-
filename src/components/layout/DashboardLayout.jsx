@@ -11,7 +11,8 @@ const DashboardLayout = () => {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false)
   const [userSettingsIsOpen, setUserSettingsIsOpen] = useState(false)
   const [composeEmailFormIsActive, setComposeEmailFormIsActive] =
-    useState(false)
+    useState(false) 
+
 
   return (
     <div className="relative w-full h-screen flex flex-col xl:flex-row bg-[#F7F9FF]">
@@ -45,7 +46,8 @@ const DashboardLayout = () => {
         />
       )}
 
-      <VerticalToggle />
+      {/* <VerticalToggle /> */}
+      
     </div>
   )
 }
