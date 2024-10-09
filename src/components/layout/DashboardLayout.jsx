@@ -5,6 +5,7 @@ import NavSideBar from "../ui/NavSideBar"
 import DashboardTopMenu from "../ui/DashboardTopMenu"
 import VerticalDesktopMenu from "../ui/VerticalDesktopMenu"
 import ComposeEmailForm from "../ui/ComposeEmailForm"
+import VerticalToggle from "../ui/VerticalToggle"
 
 const DashboardLayout = () => {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false)
@@ -14,6 +15,8 @@ const DashboardLayout = () => {
 
   return (
     <div className="relative w-full h-screen flex flex-col xl:flex-row bg-[#F7F9FF]">
+      
+      
       <NavSideBar
         sideBarIsOpen={sideBarIsOpen}
         setSideBarIsOpen={setSideBarIsOpen}
@@ -36,6 +39,7 @@ const DashboardLayout = () => {
         </div>
 
         <VerticalDesktopMenu />
+       
       </div>
 
       {composeEmailFormIsActive && (
@@ -43,6 +47,8 @@ const DashboardLayout = () => {
           setComposeEmailFormIsActive={setComposeEmailFormIsActive}
         />
       )}
+
+        <VerticalToggle />
     </div>
   )
 }
