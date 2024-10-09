@@ -100,7 +100,7 @@ const NavSideBar = ({
           <span className="text-lg">Compose</span>
         </button>
       </div>
-
+      {}
       <div className="flex-1 h-full flex flex-col gap-3 mt-5">
         {routes.map((route) => (
           <div

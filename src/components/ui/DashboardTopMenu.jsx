@@ -51,7 +51,7 @@ const DashboardTopMenu = ({
         </button>
 
         {userSettingsIsOpen && (
-          <div className="absolute top-[120%] right-0 w-[300px] py-20 bg-white shadow-sm"></div>
+          <div className="absolute top-[120%] right-0 w-[300px] py-20 bg-black shadow-sm"></div>
         )}
       </div>
     </div>
