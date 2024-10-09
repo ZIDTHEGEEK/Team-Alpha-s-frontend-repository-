@@ -15,8 +15,6 @@ const DashboardLayout = () => {
 
   return (
     <div className="relative w-full h-screen flex flex-col xl:flex-row bg-[#F7F9FF]">
-      
-      
       <NavSideBar
         sideBarIsOpen={sideBarIsOpen}
         setSideBarIsOpen={setSideBarIsOpen}
@@ -39,7 +37,6 @@ const DashboardLayout = () => {
         </div>
 
         <VerticalDesktopMenu />
-       
       </div>
 
       {composeEmailFormIsActive && (
@@ -48,7 +45,7 @@ const DashboardLayout = () => {
         />
       )}
 
-        <VerticalToggle />
+      <VerticalToggle />
     </div>
   )
 }

@@ -42,7 +42,6 @@ const routes = [
     label: "Trash",
     route: "/trash",
   },
-
 ]
 
 const NavSideBar = ({
@@ -130,10 +129,8 @@ const NavSideBar = ({
             </span>
           </div>
         ))}
-
       </div>
     </div>
-    
   )
 }
 
