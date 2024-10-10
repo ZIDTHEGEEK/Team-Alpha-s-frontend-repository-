@@ -30,6 +30,10 @@ export class AuthService {
     const secretKey = new Uint8Array(
       Object.values(jwtData.ephemeralKeyPair.keypair.secretKey)
     )
+    console.log(
+      { publicKey: jwtData.ephemeralKeyPair.keypair.publicKey },
+      { secretKey: jwtData.ephemeralKeyPair.keypair.secretKey }
+    )
     return new Ed25519Keypair({ publicKey, secretKey })
   }
 
@@ -95,8 +99,13 @@ export class AuthService {
     return this.#decodeJwt()["walletAddress"]
   }
 
+  addressSecretKey() {
+    return this.#decodeJwt()["secretKey"]
+  }
+
   #decodeJwt() {
     const jwt = localStorage.getItem("sui_mail_jwt_token")
+    if (!jwt) window.location.href = '/'
     return jwtDecode(jwt)
   }
 
@@ -153,10 +162,9 @@ export class AuthService {
 
   generateNonce() {
     const keypair = new Ed25519Keypair()
-    const publicKey = keypair.getPublicKey()
-    const maxEpoch = 10
-    const randomness = generateRandomness()
-    const nonce = generateNonce(publicKey, maxEpoch, randomness)
-    return nonce
+    const secretKey = keypair.getSecretKey()
+    const address = keypair.getPublicKey().toSuiAddress()
+    console.log(secretKey, address);
+    return { walletAddress: address, addressSecretKey: secretKey }
   }
 }

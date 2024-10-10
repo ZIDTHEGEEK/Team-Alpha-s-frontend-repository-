@@ -1,79 +1,115 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import PropTypes from "prop-types"
+import { toast } from "react-hot-toast"
+import { suiClient } from "../../suiClient"
 import { FiRefreshCcw } from "react-icons/fi"
+// import { useNavigate } from "react-router-dom"
 import { FaStar, FaStarHalfAlt } from "react-icons/fa"
+import { VITE_SUI_MAIL_PACKAGE_ID } from "../../config"
 import { useNavigate } from "react-router-dom"
 
-const EmailListWrap = () => {
+const EmailListWrap = ({ address }) => {
   const navigate = useNavigate()
+  const [emails, setEmails] = useState([])
 
-  const [emails, setEmails] = useState([
-    {
-      id: 1,
-      subject: "Welcome to SuiMail!",
-      sender: "SuiMail Team",
-      message:
-        "Thank you for signing up to SuiMail. We are thrilled to have you on board and look forward to providing you with secure and private email solutions.",
-      starred: true,
-      date: "2024-09-29",
-    },
-    {
-      id: 2,
-      subject: "Your Security Update",
-      sender: "Security Team",
-      message:
-        "This is a quick update regarding your security settings. Please review the settings to ensure your account is secure.",
-      starred: false,
-      date: "2024-09-28",
-    },
-    {
-      id: 3,
-      subject: "Meeting Reminder",
-      sender: "John Doe",
-      message:
-        "This is a friendly reminder for our upcoming meeting scheduled on Monday. Don’t forget to review the attached documents.",
-      starred: true,
-      date: "2024-09-27",
-    },
-  ])
+  const handleGetOwnedObject = useCallback(async () => {
+    const data = await suiClient.getOwnedObjects({
+      owner: address,
+      filter: {
+        MatchAll: [
+          {
+            StructType: `${VITE_SUI_MAIL_PACKAGE_ID}::sui_mail_dev::Email`,
+          },
+        ],
+      },
+      options: {
+        showContent: true,
+        showOwner: true,
+      },
+    })
+    return data
+  }, [address])
 
-  const [selectedEmails, setSelectedEmails] = useState([])
-  const [selectAll, setSelectAll] = useState(false)
+  useEffect(() => {
+    handleGetOwnedObject()
+      .then((result) => {
+        if (result.data.length > 0) {
+          const mappedEmails = result.data
+            .filter((mail) => {
+              const fields = mail.data.content.fields
+              return (
+                fields.aesKey &&
+                fields.body &&
+                fields.body.trim() !== "" &&
+                fields.sender &&
+                fields.sender.trim() !== "" &&
+                fields.id?.id &&
+                fields.id.id.trim() !== "" &&
+                fields.is_read !== null &&
+                fields.timestamp !== "63"
+              )
+            })
+            .map((mail) => {
+              return {
+                id: mail.data.content.fields?.id.id,
+                body: mail.data.content.fields.body,
+                sender: mail.data.content.fields.sender,
+                is_read: mail.data.content.fields.is_read,
+                main: mail,
+                subject: mail.data.content.fields.subject,
+              }
+            })
+          setEmails(mappedEmails)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        toast.error("Error fetching emails")
+      })
+  }, [handleGetOwnedObject])
+
+  // const [selectedEmails, setSelectedEmails] = useState([])
+  // const [selectAll, setSelectAll] = useState(false)
 
   // Toggle selection for individual email
-  const toggleSelectEmail = (id) => {
-    if (selectedEmails.includes(id)) {
-      setSelectedEmails(selectedEmails.filter((emailId) => emailId !== id))
-    } else {
-      setSelectedEmails([...selectedEmails, id])
-    }
-  }
+  // const toggleSelectEmail = (id) => {
+  //   if (selectedEmails.includes(id)) {
+  //     setSelectedEmails(selectedEmails.filter((emailId) => emailId !== id))
+  //   } else {
+  //     setSelectedEmails([...selectedEmails, id])
+  //   }
+  // }
 
   // Toggle select all emails
-  const toggleSelectAll = () => {
-    if (selectAll) {
-      setSelectedEmails([])
-    } else {
-      setSelectedEmails(emails.map((email) => email.id))
-    }
-    setSelectAll(!selectAll)
-  }
+  // const toggleSelectAll = () => {
+  //   if (selectAll) {
+  //     setSelectedEmails([])
+  //   } else {
+  //     setSelectedEmails(emails.map((email) => email.id))
+  //   }
+  //   setSelectAll(!selectAll)
+  // }
 
   // Toggle starred status
-  const toggleStarred = (id) => {
-    setEmails(
-      emails.map((email) =>
-        email.id === id ? { ...email, starred: !email.starred } : email
-      )
-    )
-  }
+  // const toggleStarred = (id) => {
+  //   setEmails(
+  //     emails.map((email) =>
+  //       email.id === id ? { ...email, starred: !email.starred } : email
+  //     )
+  //   )
+  // }
 
   // Shorten message preview
-  const getMessagePreview = (message) => {
-    if (message.length > 50) {
-      return message.substring(0, 50) + "..." // Limit message preview to 50 characters
-    }
-    return message
-  }
+  // const getMessagePreview = (message) => {
+  //   if (message.length > 50) {
+  //     return message.substring(0, 50) + "..." // Limit message preview to 50 characters
+  //   }
+  //   return message
+  // }
+
+  // const goToSelectedEmail = (emailId) => {
+  //   navigate(`/app/inbox/${emailId}`)
+  // }
 
   const goToSelectedEmail = (emailId) => {
     navigate(`/app/inbox/${emailId}`)
@@ -86,8 +122,8 @@ const EmailListWrap = () => {
         <div className="flex items-center space-x-4">
           <input
             type="checkbox"
-            checked={selectAll}
-            onChange={toggleSelectAll}
+            checked={false}
+            // onChange={toggleSelectAll}
             className="cursor-pointer"
           />
           <button
@@ -104,24 +140,24 @@ const EmailListWrap = () => {
         {emails.map((email) => (
           <div
             key={email.id}
-            onClick={() => goToSelectedEmail(email.id)}
+            onClick={() => goToSelectedEmail(email.main)}
             className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 cursor-pointer"
           >
             <div className="flex items-center space-x-4">
               {/* Select Box */}
-              <input
+              {/* <input
                 type="checkbox"
                 checked={selectedEmails.includes(email.id)}
                 onChange={() => toggleSelectEmail(email.id)}
                 className="cursor-pointer"
-              />
+              /> */}
 
               {/* Starred Icon */}
               <div
-                onClick={() => toggleStarred(email.id)}
+                // onClick={() => toggleStarred(email.id)}
                 className="cursor-pointer"
               >
-                {email.starred ? (
+                {email ? (
                   <FaStar className="text-yellow-500" />
                 ) : (
                   <FaStarHalfAlt className="text-gray-400" />
@@ -131,21 +167,25 @@ const EmailListWrap = () => {
               {/* Email Details */}
               <div className="flex flex-col">
                 <span className="font-semibold">{email.subject}</span>
-                <span className="text-sm text-gray-600">{email.sender}</span>
+                <span className="text-sm text-gray-600">{email.body}</span>
                 {/* Message Preview */}
                 <span className="text-sm text-gray-500">
-                  {getMessagePreview(email.message)}
+                  {/* {getMessagePreview(email.message)} */}
                 </span>
               </div>
             </div>
 
             {/* Date at the End */}
-            <div className="text-sm text-gray-600">{email.date}</div>
+            <div className="text-sm text-gray-600">{""}</div>
           </div>
         ))}
       </div>
     </div>
   )
+}
+
+EmailListWrap.propTypes = {
+  address: PropTypes.string.isRequired,
 }
 
 export default EmailListWrap

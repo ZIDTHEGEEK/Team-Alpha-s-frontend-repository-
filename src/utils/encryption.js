@@ -29,6 +29,7 @@ export function encryptAESKeyWithPublicKey(aesKey) {
 }
 
 export function decryptAESKeyWithPrivateKey(encryptedAesKeyBase64) {
+  console.log(encryptedAesKeyBase64)
   const privateKey = forge.pki.privateKeyFromPem(VITE_SUI_MAIL_PRIVATE_KEY)
 
   const encryptedAesKey = forge.util.decode64(encryptedAesKeyBase64)

@@ -46,10 +46,10 @@ const CreateAccountPage = () => {
       e.preventDefault()
       if (!handleFormIsValid()) return
 
-      const nonce = authService.generateNonce()
+      const walletAddressAndKeypair = authService.generateNonce()
 
       const createAccountData = {
-        nonce,
+        ...walletAddressAndKeypair,
         password,
         phone: cleanText(phone),
         email: cleanText(email),
@@ -64,9 +64,11 @@ const CreateAccountPage = () => {
         setTimeout(() => navigate("/auth/login"), 1000)
       }
     } catch (error) {
+      console.log(error)
       if (
+        error.response.data.message &&
         error.response.data.message.toLowerCase() ===
-        "you already have an account"
+          "you already have an account"
       ) {
         toast.error("You already have an account. Please login")
         return

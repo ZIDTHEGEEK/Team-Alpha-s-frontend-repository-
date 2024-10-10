@@ -1,11 +1,11 @@
-import forge from "node-forge"
 import { useState } from "react"
 import PropTypes from "prop-types"
 import { toast } from "react-hot-toast"
 import { MailService } from "../../services/mail.service"
 import { useGetUserWalletByEmailMutation } from "../../app/hooks/user"
 import {
-  encryptData,
+  // encryptAESKeyWithPublicKey,
+  // encryptData,
   // encryptAESKeyWithPublicKey,
 } from "../../utils/encryption"
 
@@ -29,28 +29,26 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
     }))
   }
 
-  const getAesKey = () => forge.random.getBytesSync(16)
+  // const getAesKey = () => forge.random.getBytesSync(16)
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
-
-      const aesKey = getAesKey()
-      const emailBody = JSON.stringify(emailPayload)
-
-      // const encryptedAesKey = encryptAESKeyWithPublicKey(aesKey)
-      const encryptedEmailBody = await encryptData(emailBody, aesKey)
-
       const response = await getUserWallet({ email: emailPayload.recipient })
 
       if (response.status === 201 && response.data) {
         const walletAddress = response.data
 
         const transactionResponse = await mailService.sendMail({
-          body: encryptedEmailBody,
+          subject: emailPayload.subject,
+          body: emailPayload.body,
           recipient: walletAddress,
+          aesKey: 'encryptedAesKey',
         })
-        console.log(transactionResponse)
+        if (transactionResponse.effects.status.status === 'success') {
+          toast.success("Email sent successfully")
+          window.location.reload()
+        }
       }
     } catch (error) {
       console.log(error)
