@@ -3,11 +3,10 @@ import PropTypes from "prop-types"
 import { toast } from "react-hot-toast"
 import { MailService } from "../../services/mail.service"
 import { useGetUserWalletByEmailMutation } from "../../app/hooks/user"
-import {
-  // encryptAESKeyWithPublicKey,
-  // encryptData,
-  // encryptAESKeyWithPublicKey,
-} from "../../utils/encryption"
+import {} from // encryptAESKeyWithPublicKey,
+// encryptData,
+// encryptAESKeyWithPublicKey,
+"../../utils/encryption"
 
 const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
   const mailService = new MailService()
@@ -43,9 +42,9 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
           subject: emailPayload.subject,
           body: emailPayload.body,
           recipient: walletAddress,
-          aesKey: 'encryptedAesKey',
+          aesKey: "encryptedAesKey",
         })
-        if (transactionResponse.effects.status.status === 'success') {
+        if (transactionResponse.effects.status.status === "success") {
           toast.success("Email sent successfully")
           window.location.reload()
         }

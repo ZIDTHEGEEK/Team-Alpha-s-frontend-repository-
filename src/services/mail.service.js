@@ -49,7 +49,7 @@ export class MailService {
 
     tx.moveCall({
       target: `${VITE_SUI_MAIL_PACKAGE_ID}::sui_mail_dev::delete_email`,
-      arguments: [tx.object(email)]
+      arguments: [tx.object(email)],
     })
 
     const addressSecretKey = this.authService.addressSecretKey()
@@ -65,7 +65,9 @@ export class MailService {
       .then((txRes) => {
         const status = txRes.effects?.status?.status
         if (status !== "success") {
-          throw new Error(`Could not delete mail ${txRes.effects?.status?.error}`)
+          throw new Error(
+            `Could not delete mail ${txRes.effects?.status?.error}`
+          )
         }
         return txRes
       })

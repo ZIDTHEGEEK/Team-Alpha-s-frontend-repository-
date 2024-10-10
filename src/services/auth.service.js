@@ -105,7 +105,7 @@ export class AuthService {
 
   #decodeJwt() {
     const jwt = localStorage.getItem("sui_mail_jwt_token")
-    if (!jwt) window.location.href = '/'
+    if (!jwt) window.location.href = "/"
     return jwtDecode(jwt)
   }
 
@@ -164,7 +164,7 @@ export class AuthService {
     const keypair = new Ed25519Keypair()
     const secretKey = keypair.getSecretKey()
     const address = keypair.getPublicKey().toSuiAddress()
-    console.log(secretKey, address);
+    console.log(secretKey, address)
     return { walletAddress: address, addressSecretKey: secretKey }
   }
 }
