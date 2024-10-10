@@ -43,7 +43,6 @@ const SetProfilePage = () => {
       }
 
       const response = await updateUser(data)
-      console.log(response)
 
       if (response.status === 200) {
         toast.success("Profile saved successfully")

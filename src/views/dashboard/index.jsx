@@ -1,9 +1,12 @@
 import EmailListWrap from "../../components/EmailListWrap"
+import { AuthService } from "../../services/auth.service"
 
 const DashboardPage = () => {
+  const authService = new AuthService()
+
   return (
     <div className="w-full flex-1 h-full">
-      <EmailListWrap />
+      <EmailListWrap address={authService.walletAddress() ?? ""} />
     </div>
   )
 }
