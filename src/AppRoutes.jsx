@@ -14,6 +14,8 @@ import SetProfilePage from "./views/set-profile"
 
 export default function AppRoutes() {
   const pathname = useLocation().pathname
+  const plainLayoutRoutes = ["/app/set-profile"]
+  const isPlainLayoutRoute = plainLayoutRoutes.includes(pathname)
 
   return (
     <Routes>
@@ -27,9 +29,7 @@ export default function AppRoutes() {
 
         <Route
           path="app"
-          element={
-            pathname === "/app/set-profile" ? <Outlet /> : <DashboardLayout />
-          }
+          element={isPlainLayoutRoute ? <Outlet /> : <DashboardLayout />}
         >
           <Route path="" element={<DashboardPage />} />
           <Route path="set-profile" element={<SetProfilePage />} />

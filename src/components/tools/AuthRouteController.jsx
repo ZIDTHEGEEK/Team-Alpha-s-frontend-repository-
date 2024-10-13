@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import PropTypes from "prop-types"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useGetActiveUserDataQuery } from "../../app/hooks/user"
+import { useGetActiveUserDataQuery } from "../../redux/hooks/user"
 
 const publicRoutes = ["/", "/auth/login", "/auth/create-account"]
 

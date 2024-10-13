@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { cleanText, isValidEmail } from "../../../utils"
 import { AuthService } from "../../../services/auth.service"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
-import { useCreateAccountMutation } from "../../../app/hooks/auth"
+import { useCreateAccountMutation } from "../../../redux/hooks/auth"
 
 const CreateAccountPage = () => {
   const navigate = useNavigate()

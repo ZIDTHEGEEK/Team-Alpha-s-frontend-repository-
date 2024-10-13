@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { get, post, put } from "../../api"
+import { get, post, put } from "../../../api"
 
 export const useGetActiveUserDataQuery = () => {
   return useQuery({ queryKey: ["userdata"], queryFn: () => get("users/me") })

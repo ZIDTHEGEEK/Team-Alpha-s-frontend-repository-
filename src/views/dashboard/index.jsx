@@ -5,7 +5,7 @@ const DashboardPage = () => {
   const authService = new AuthService()
 
   return (
-    <div className="w-full flex-1 h-full">
+    <div className="w-full h-full">
       <EmailListWrap address={authService.walletAddress() ?? ""} />
     </div>
   )

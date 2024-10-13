@@ -1,6 +1,6 @@
 import axios from "axios"
-import { VITE_API_URL } from "../../config"
-import { AuthService } from "../../services/auth.service"
+import { VITE_API_URL } from "../config"
+import { AuthService } from "../services/auth.service"
 
 const axiosInstance = axios.create({
   baseURL: VITE_API_URL,

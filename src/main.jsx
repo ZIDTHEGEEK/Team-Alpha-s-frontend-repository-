@@ -8,7 +8,7 @@ import {
 } from "@mysten/dapp-kit"
 import { Provider } from "react-redux"
 import AppRoutes from "./AppRoutes.jsx"
-import store from "./app/store/index.js"
+import store from "./redux/store/index.js"
 import { Toaster } from "react-hot-toast"
 import { getFullnodeUrl } from "@mysten/sui/client"
 import { BrowserRouter, Route, Routes } from "react-router-dom"

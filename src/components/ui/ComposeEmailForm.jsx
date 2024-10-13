@@ -1,14 +1,12 @@
 import { useState } from "react"
-import PropTypes from "prop-types"
 import { toast } from "react-hot-toast"
+import { useDispatch } from "react-redux"
 import { MailService } from "../../services/mail.service"
-import { useGetUserWalletByEmailMutation } from "../../app/hooks/user"
-import {} from // encryptAESKeyWithPublicKey,
-// encryptData,
-// encryptAESKeyWithPublicKey,
-"../../utils/encryption"
+import { useGetUserWalletByEmailMutation } from "../../redux/hooks/user"
+import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice"
 
-const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
+const ComposeEmailForm = () => {
+  const dispatch = useDispatch()
   const mailService = new MailService()
 
   const [emailPayload, setEmailPayload] = useState({
@@ -28,11 +26,27 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
     }))
   }
 
-  // const getAesKey = () => forge.random.getBytesSync(16)
+  const emailInputIsValid = () => {
+    if (emailPayload.recipient.length === 0) {
+      toast.error("Enter a valid email or wallet address")
+      return false
+    }
+    if (emailPayload.subject.length === 0) {
+      toast.error("Enter a valid email subject")
+      return false
+    }
+    if (emailPayload.body.length === 0) {
+      toast.error("Enter a valid email message")
+      return false
+    }
+    return true
+  }
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
+      if (!emailInputIsValid()) return
+
       const response = await getUserWallet({ email: emailPayload.recipient })
 
       if (response.status === 201 && response.data) {
@@ -46,13 +60,17 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
         })
         if (transactionResponse.effects.status.status === "success") {
           toast.success("Email sent successfully")
-          window.location.reload()
+          handleSetFormDisplayState(false)
         }
       }
     } catch (error) {
       console.log(error)
       toast.error(`Error occured: ${error.message}`)
     }
+  }
+
+  const handleSetFormDisplayState = (value) => {
+    dispatch(setComposeEmailFormDisplayState(value))
   }
 
   return (
@@ -62,7 +80,7 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
           <div className="flex items-center justify-end py-5 pr-5">
             <button
               type="button"
-              onClick={() => setComposeEmailFormIsActive(false)}
+              onClick={() => handleSetFormDisplayState(false)}
             >
               <img
                 src="/svg/email-compose-close.svg"
@@ -130,10 +148,6 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
       </div>
     </div>
   )
-}
-
-ComposeEmailForm.propTypes = {
-  setComposeEmailFormIsActive: PropTypes.func.isRequired,
 }
 
 export default ComposeEmailForm

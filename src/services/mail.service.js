@@ -8,7 +8,7 @@ export class MailService {
   authService = new AuthService()
 
   async sendMail(sendMailDto) {
-    const { body, subject, recipient, aesKey } = sendMailDto
+    const { body, recipient, aesKey, iv } = sendMailDto
 
     const tx = new Transaction()
 
@@ -16,9 +16,10 @@ export class MailService {
       target: `${VITE_SUI_MAIL_PACKAGE_ID}::sui_mail_dev::send_email`,
       arguments: [
         tx.pure.address(recipient),
-        tx.pure.string(subject),
         tx.pure.string(body),
         tx.pure.string(aesKey),
+        tx.pure.string(iv),
+        tx.pure.string(Date.now().toString()),
       ],
     })
 

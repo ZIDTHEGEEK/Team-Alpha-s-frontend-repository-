@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import { useUpdateUserMutation } from "../../app/hooks/user"
 import { cleanText, isValidEmail } from "../../utils"
+import { useUpdateUserMutation } from "../../redux/hooks/user"
 
 const SetProfilePage = () => {
   const [email, setEmail] = useState("")
