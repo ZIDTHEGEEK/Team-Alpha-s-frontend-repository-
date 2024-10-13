@@ -41,12 +41,14 @@ body {
   background-color: white;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .custom-checkbox:checked {
-  background-color: #4BA2FF;
-  border-color: #4BA2FF;
+  background-color: #4ba2ff;
+  border-color: #4ba2ff;
 }
 
 .custom-checkbox:checked::after {

@@ -36,7 +36,7 @@ const EmailListWrap = ({ address }) => {
         const responsiveEmails = await transformEmails(result.data)
         setEmails(responsiveEmails)
       } catch (error) {
-        setError(error);
+        setError(error)
         toast.error("Error fetching emails")
       }
     })()

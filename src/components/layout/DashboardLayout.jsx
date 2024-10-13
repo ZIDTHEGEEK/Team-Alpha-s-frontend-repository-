@@ -37,7 +37,9 @@ const DashboardLayout = () => {
           />
 
           <div
-            className={clsx(["flex-1 w-full bg-white rounded-t-3xl pb-14 overflow-hidden"])}
+            className={clsx([
+              "flex-1 w-full bg-white rounded-t-3xl pb-14 overflow-hidden",
+            ])}
           >
             <Outlet />
           </div>
