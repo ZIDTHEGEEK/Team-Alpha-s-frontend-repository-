@@ -11,7 +11,7 @@ import clsx from "clsx"
 import { Link } from "react-router-dom"
 
 const routes = [
-  { icon: MdInbox, label: "Inbox", route: "" },
+  { icon: MdInbox, label: "Inbox", route: "/inbox" },
   {
     icon: MdOutlineStarPurple500,
     label: "Starred",

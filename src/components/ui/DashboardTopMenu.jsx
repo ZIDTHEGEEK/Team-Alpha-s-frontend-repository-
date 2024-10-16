@@ -7,7 +7,7 @@ const DashboardTopMenu = ({
   setUserSettingsIsOpen,
 }) => {
   return (
-    <div className="relative w-full h-max flex items-center justify-between sm:justify-evenly px-3 sm:px-0 py-10 gap-4 sm:gap-6 xl:gap-10">
+    <div className="relative w-full h-[12vh] flex items-center justify-between sm:justify-evenly px-3 sm:px-0 py-10 gap-4 sm:gap-6 xl:gap-10">
       <button
         type="button"
         onClick={() => setSideBarIsOpen(true)}

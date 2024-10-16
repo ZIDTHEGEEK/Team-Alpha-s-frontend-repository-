@@ -8,40 +8,35 @@ export class MailService {
   authService = new AuthService()
 
   async sendMail(sendMailDto) {
-    const { body, subject, recipient, aesKey } = sendMailDto
+    try {
+      const { body, recipient, aesKey, iv } = sendMailDto
 
-    const tx = new Transaction()
+      const tx = new Transaction()
 
-    tx.moveCall({
-      target: `${VITE_SUI_MAIL_PACKAGE_ID}::sui_mail_dev::send_email`,
-      arguments: [
-        tx.pure.address(recipient),
-        tx.pure.string(subject),
-        tx.pure.string(body),
-        tx.pure.string(aesKey),
-      ],
-    })
+      tx.moveCall({
+        target: `${VITE_SUI_MAIL_PACKAGE_ID}::sui_mail_dev::send_email`,
+        arguments: [
+          tx.pure.address(recipient),
+          tx.pure.string(body),
+          tx.pure.string(aesKey),
+          tx.pure.string(iv),
+          tx.pure.string(Date.now().toString()),
+        ],
+      })
 
-    const addressSecretKey = this.authService.addressSecretKey()
+      const addressSecretKey = this.authService.addressSecretKey()
 
-    return await suiClient
-      .signAndExecuteTransaction({
+      const response = await suiClient.signAndExecuteTransaction({
         signer: Ed25519Keypair.fromSecretKey(addressSecretKey),
         transaction: tx,
         options: {
           showEffects: true,
         },
       })
-      .then((txRes) => {
-        const status = txRes.effects?.status?.status
-        if (status !== "success") {
-          throw new Error(`Could not send mail ${txRes.effects?.status?.error}`)
-        }
-        return txRes
-      })
-      .catch((err) => {
-        throw new Error(`Error thrown: Could not send mail!: ${err}`)
-      })
+      return response
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   async deleteMail(email) {

@@ -1,43 +1,70 @@
 import forge from "node-forge"
 import { VITE_SUI_MAIL_PRIVATE_KEY, VITE_SUI_MAIL_PUBLIC_KEY } from "../config"
 
-export async function encryptData(data, key) {
-  const cipher = forge.cipher.createCipher("AES-CBC", key)
-  cipher.start({ iv: forge.random.getBytesSync(16) })
-  cipher.update(forge.util.createBuffer(data))
-  cipher.finish()
-  return cipher.output.toHex()
-}
+export class CipherService {
+  #generateAesKeyAndIV() {
+    const key = forge.random.getBytesSync(16)
+    const iv = forge.random.getBytesSync(16)
+    return { key, iv }
+  }
 
-export async function decryptData(encryptedData, key) {
-  const decipher = forge.cipher.createDecipher("AES-CBC", key)
-  decipher.start({ iv: forge.random.getBytesSync(16) })
-  decipher.update(forge.util.createBuffer(forge.util.hexToBytes(encryptedData)))
-  decipher.finish()
-  return decipher.output.toString()
-}
+  async encryptData(data) {
+    const { key, iv } = this.#generateAesKeyAndIV()
 
-export function encryptAESKeyWithPublicKey(aesKey) {
-  const publicKey = forge.pki.publicKeyFromPem(VITE_SUI_MAIL_PUBLIC_KEY)
+    const cipher = forge.cipher.createCipher("AES-CBC", key)
+    cipher.start({ iv })
+    cipher.update(forge.util.createBuffer(data))
+    cipher.finish()
 
-  const encryptedAesKey = publicKey.encrypt(aesKey, "RSA-OAEP", {
-    md: forge.md.sha256.create(),
-    mgf1: forge.mgf.mgf1.create(forge.md.sha256.create()),
-  })
+    const encryptedAesKey = this.#encryptWithPublicKey(key)
+    const encryptedIV = this.#encryptWithPublicKey(iv)
 
-  return forge.util.encode64(encryptedAesKey)
-}
+    return {
+      encryptedData: cipher.output,
+      secure: { aesKey: encryptedAesKey, iv: encryptedIV },
+    }
+  }
 
-export function decryptAESKeyWithPrivateKey(encryptedAesKeyBase64) {
-  console.log(encryptedAesKeyBase64)
-  const privateKey = forge.pki.privateKeyFromPem(VITE_SUI_MAIL_PRIVATE_KEY)
+  async decryptData(encryptedData, secure) {
+    const encryptedDataBuffer = this.#hexToByeStringBuffer(encryptedData)
+    const decryptedAesKey = this.#decryptWithPrivateKey(secure.aesKey)
+    const decryptedIV = this.#decryptWithPrivateKey(secure.iv)
 
-  const encryptedAesKey = forge.util.decode64(encryptedAesKeyBase64)
+    const decipher = forge.cipher.createDecipher("AES-CBC", decryptedAesKey)
+    decipher.start({ iv: decryptedIV })
+    decipher.update(encryptedDataBuffer)
+    decipher.finish()
+    return decipher.output.toString()
+  }
 
-  const decryptedAesKey = privateKey.decrypt(encryptedAesKey, "RSA-OAEP", {
-    md: forge.md.sha256.create(),
-    mgf1: forge.mgf.mgf1.create(forge.md.sha256.create()),
-  })
+  #hexToByeStringBuffer(hexString) {
+    const encryptedDataBytes = forge.util.hexToBytes(hexString)
+    return forge.util.createBuffer(encryptedDataBytes)
+  }
 
-  return decryptedAesKey
+  parseEmailPayload(decryptedData) {
+    return JSON.parse(decryptedData)
+  }
+
+  #encryptWithPublicKey(data) {
+    const publicKey = forge.pki.publicKeyFromPem(VITE_SUI_MAIL_PUBLIC_KEY)
+    const encrypted = publicKey.encrypt(data, "RSA-OAEP", {
+      md: forge.md.sha256.create(),
+      mgf1: forge.mgf.mgf1.create(forge.md.sha256.create()),
+    })
+    return forge.util.encode64(encrypted)
+  }
+
+  #decryptWithPrivateKey(data) {
+    const privateKey = forge.pki.privateKeyFromPem(VITE_SUI_MAIL_PRIVATE_KEY)
+
+    const encrypted = forge.util.decode64(data)
+
+    const decrypted = privateKey.decrypt(encrypted, "RSA-OAEP", {
+      md: forge.md.sha256.create(),
+      mgf1: forge.mgf.mgf1.create(forge.md.sha256.create()),
+    })
+
+    return decrypted
+  }
 }

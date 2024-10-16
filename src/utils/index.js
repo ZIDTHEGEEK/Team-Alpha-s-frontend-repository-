@@ -13,3 +13,8 @@ export function isValidEmail(email) {
 export function cleanText(text) {
   return text.trim().toLowerCase()
 }
+
+export function formatMessageText(message) {
+  const start = message.slice(0, 100)
+  return `${start}.....`
+}

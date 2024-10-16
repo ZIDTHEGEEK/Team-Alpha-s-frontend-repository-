@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import { useUpdateUserMutation } from "../../app/hooks/user"
 import { cleanText, isValidEmail } from "../../utils"
+import { useUpdateUserMutation } from "../../redux/hooks/user"
 
 const SetProfilePage = () => {
   const [email, setEmail] = useState("")
@@ -49,7 +49,6 @@ const SetProfilePage = () => {
         setTimeout(() => window.location.assign("/app"), 1000)
       }
     } catch (error) {
-      console.log(error)
       if (
         error.response.data.message.toLowerCase() ===
         "you already have an account"

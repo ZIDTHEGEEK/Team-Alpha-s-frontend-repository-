@@ -12,7 +12,7 @@ import { AuthService } from "../../../services/auth.service"
 import WalletConnectedContainer from "./WalletConnectedContainer"
 import WalletConnectingContainer from "./WalletConnectingContainer"
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
-import { useConnectWalletAuthenticationMutation } from "../../../app/hooks/auth"
+import { useConnectWalletAuthenticationMutation } from "../../../redux/hooks/auth"
 
 const ConnectWalletModal = ({ userIsLoggingIn }) => {
   const authService = new AuthService()
@@ -42,7 +42,6 @@ const ConnectWalletModal = ({ userIsLoggingIn }) => {
         )
       }
     } catch (error) {
-      console.log(error)
       toast.error(`Error connecting wallet: ${error.message}`)
     }
   }

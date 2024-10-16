@@ -1,15 +1,16 @@
 import { useState } from "react"
-import PropTypes from "prop-types"
 import { toast } from "react-hot-toast"
+import { useDispatch } from "react-redux"
 import { MailService } from "../../services/mail.service"
-import { useGetUserWalletByEmailMutation } from "../../app/hooks/user"
-import {} from // encryptAESKeyWithPublicKey,
-// encryptData,
-// encryptAESKeyWithPublicKey,
-"../../utils/encryption"
+import { useGetUserWalletByEmailMutation } from "../../redux/hooks/user"
+import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice"
+import { CipherService } from "../../utils/encryption"
 
-const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
+const ComposeEmailForm = () => {
+  const dispatch = useDispatch()
   const mailService = new MailService()
+  const cipherService = new CipherService()
+  const [emailIsSending, setEmailIsSending] = useState(false)
 
   const [emailPayload, setEmailPayload] = useState({
     recipient: "",
@@ -28,31 +29,64 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
     }))
   }
 
-  // const getAesKey = () => forge.random.getBytesSync(16)
+  const emailInputIsValid = () => {
+    if (emailPayload.recipient.length === 0) {
+      toast.error("Enter a valid email or wallet address")
+      return false
+    }
+    if (emailPayload.subject.length === 0) {
+      toast.error("Enter a valid email subject")
+      return false
+    }
+    if (emailPayload.body.length === 0) {
+      toast.error("Enter a valid email message")
+      return false
+    }
+    return true
+  }
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
+      if (!emailInputIsValid()) return
+
+      setEmailIsSending(true)
+
       const response = await getUserWallet({ email: emailPayload.recipient })
 
       if (response.status === 201 && response.data) {
         const walletAddress = response.data
+        const stringifiedMail = JSON.stringify(emailPayload)
+        const { encryptedData, secure } =
+          await cipherService.encryptData(stringifiedMail)
 
         const transactionResponse = await mailService.sendMail({
-          subject: emailPayload.subject,
-          body: emailPayload.body,
+          body: encryptedData.toHex(),
           recipient: walletAddress,
-          aesKey: "encryptedAesKey",
+          aesKey: secure.aesKey,
+          iv: secure.iv,
         })
+
         if (transactionResponse.effects.status.status === "success") {
           toast.success("Email sent successfully")
-          window.location.reload()
+          handleSetFormDisplayState(false)
         }
       }
     } catch (error) {
-      console.log(error)
-      toast.error(`Error occured: ${error.message}`)
+      if (error?.response?.data?.message.toLowerCase() === "not found") {
+        toast.error(
+          `Cannot send mail to ${emailPayload.recipient}. Try again later`
+        )
+        return
+      }
+      toast.error(`${error.message}`)
+    } finally {
+      setEmailIsSending(false)
     }
+  }
+
+  const handleSetFormDisplayState = (value) => {
+    dispatch(setComposeEmailFormDisplayState(value))
   }
 
   return (
@@ -62,7 +96,7 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
           <div className="flex items-center justify-end py-5 pr-5">
             <button
               type="button"
-              onClick={() => setComposeEmailFormIsActive(false)}
+              onClick={() => handleSetFormDisplayState(false)}
             >
               <img
                 src="/svg/email-compose-close.svg"
@@ -120,9 +154,12 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
             <div className="w-full">
               <button
                 type="submit"
+                disabled={emailIsSending}
                 className="bg-[#21C1FF] px-6 py-2 rounded-md"
               >
-                <span className="text-white">Send</span>
+                <span className="text-white">
+                  {emailIsSending ? "Sending" : "Send"}
+                </span>
               </button>
             </div>
           </form>
@@ -130,10 +167,6 @@ const ComposeEmailForm = ({ setComposeEmailFormIsActive }) => {
       </div>
     </div>
   )
-}
-
-ComposeEmailForm.propTypes = {
-  setComposeEmailFormIsActive: PropTypes.func.isRequired,
 }
 
 export default ComposeEmailForm

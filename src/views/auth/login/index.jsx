@@ -2,7 +2,7 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { Link } from "react-router-dom"
 import { isValidEmail } from "../../../utils"
-import { useLoginMutation } from "../../../app/hooks/auth"
+import { useLoginMutation } from "../../../redux/hooks/auth"
 import { AuthService } from "../../../services/auth.service"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
 import ConnectWalletModal from "../../../components/modals/ConnectWalletModal"
@@ -39,21 +39,11 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         toast.success("Logged in successfully")
-        console.log(response.data)
         const { token } = response.data
         authService.setJwtToken(token)
-        // console.log({
-        //   walletAddressFromSecretKey: Ed25519Keypair.fromSecretKey(
-        //     response.data.user.addressSecretKey
-        //   )
-        //     .getPublicKey()
-        //     .toSuiAddress(),
-        // })
-        // console.log({ walletAddress: response.data.user.walletAddress })
         setTimeout(() => window.location.assign("/app"), 1000)
       }
     } catch (error) {
-      console.error(error)
       if (error.response.data.message.toLowerCase() === "user not found") {
         toast.error(`User does not exists. Please Create an account.`)
         return

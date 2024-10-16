@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { cleanText, isValidEmail } from "../../../utils"
 import { AuthService } from "../../../services/auth.service"
 import { PiEyeClosedLight, PiEyeLight } from "react-icons/pi"
-import { useCreateAccountMutation } from "../../../app/hooks/auth"
+import { useCreateAccountMutation } from "../../../redux/hooks/auth"
 
 const CreateAccountPage = () => {
   const navigate = useNavigate()
@@ -64,7 +64,6 @@ const CreateAccountPage = () => {
         setTimeout(() => navigate("/auth/login"), 1000)
       }
     } catch (error) {
-      console.log(error)
       if (
         error.response.data.message &&
         error.response.data.message.toLowerCase() ===
