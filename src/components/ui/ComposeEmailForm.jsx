@@ -58,7 +58,7 @@ const ComposeEmailForm = () => {
         const walletAddress = response.data
         const stringifiedMail = JSON.stringify(emailPayload)
         const { encryptedData, secure } =
-         await cipherService.encryptData(stringifiedMail)
+          await cipherService.encryptData(stringifiedMail)
 
         const transactionResponse = await mailService.sendMail({
           body: encryptedData.toHex(),

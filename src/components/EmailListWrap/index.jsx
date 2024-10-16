@@ -65,7 +65,7 @@ const EmailListWrap = ({ address }) => {
 
   const handleGoToClickedMail = (id) => {
     const mail = findMail(id)
-    if (!mail) return 
+    if (!mail) return
 
     dispatch(setActiveMail(mail))
     navigate(`/app/inbox/${id}`)
