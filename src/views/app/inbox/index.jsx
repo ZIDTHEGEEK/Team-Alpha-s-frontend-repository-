@@ -1,5 +1,5 @@
-import EmailListWrap from "../../components/EmailListWrap"
-import { AuthService } from "../../services/auth.service"
+import EmailListWrap from "../../../components/EmailListWrap"
+import { AuthService } from "../../../services/auth.service"
 
 const DashboardPage = () => {
   const authService = new AuthService()

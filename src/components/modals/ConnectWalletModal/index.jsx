@@ -42,7 +42,6 @@ const ConnectWalletModal = ({ userIsLoggingIn }) => {
         )
       }
     } catch (error) {
-      console.log(error)
       toast.error(`Error connecting wallet: ${error.message}`)
     }
   }

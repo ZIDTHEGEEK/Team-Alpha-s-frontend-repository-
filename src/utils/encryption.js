@@ -16,8 +16,8 @@ export class CipherService {
     cipher.update(forge.util.createBuffer(data))
     cipher.finish()
 
-    const encryptedAesKey = this.encryptWithPublicKey(key)
-    const encryptedIV = this.encryptWithPublicKey(iv)
+    const encryptedAesKey = this.#encryptWithPublicKey(key)
+    const encryptedIV = this.#encryptWithPublicKey(iv)
 
     return {
       encryptedData: cipher.output,
@@ -26,21 +26,27 @@ export class CipherService {
   }
 
   async decryptData(encryptedData, secure) {
-    const decryptedAesKey = this.decryptWithPrivateKey(secure.aesKey)
-    const decryptedIV = this.decryptWithPrivateKey(secure.iv)
+    const encryptedDataBuffer = this.#hexToByeStringBuffer(encryptedData)
+    const decryptedAesKey = this.#decryptWithPrivateKey(secure.aesKey)
+    const decryptedIV = this.#decryptWithPrivateKey(secure.iv)
 
     const decipher = forge.cipher.createDecipher("AES-CBC", decryptedAesKey)
     decipher.start({ iv: decryptedIV })
-    decipher.update(encryptedData)
+    decipher.update(encryptedDataBuffer)
     decipher.finish()
     return decipher.output.toString()
+  }
+
+  #hexToByeStringBuffer(hexString) {
+    const encryptedDataBytes = forge.util.hexToBytes(hexString)
+    return forge.util.createBuffer(encryptedDataBytes)
   }
 
   parseEmailPayload(decryptedData) {
     return JSON.parse(decryptedData)
   }
 
-  encryptWithPublicKey(data) {
+  #encryptWithPublicKey(data) {
     const publicKey = forge.pki.publicKeyFromPem(VITE_SUI_MAIL_PUBLIC_KEY)
     const encrypted = publicKey.encrypt(data, "RSA-OAEP", {
       md: forge.md.sha256.create(),
@@ -49,7 +55,7 @@ export class CipherService {
     return forge.util.encode64(encrypted)
   }
 
-  decryptWithPrivateKey(data) {
+  #decryptWithPrivateKey(data) {
     const privateKey = forge.pki.privateKeyFromPem(VITE_SUI_MAIL_PRIVATE_KEY)
 
     const encrypted = forge.util.decode64(data)

@@ -30,10 +30,6 @@ export class AuthService {
     const secretKey = new Uint8Array(
       Object.values(jwtData.ephemeralKeyPair.keypair.secretKey)
     )
-    console.log(
-      { publicKey: jwtData.ephemeralKeyPair.keypair.publicKey },
-      { secretKey: jwtData.ephemeralKeyPair.keypair.secretKey }
-    )
     return new Ed25519Keypair({ publicKey, secretKey })
   }
 
@@ -111,7 +107,6 @@ export class AuthService {
 
   #salt() {
     const email = this.#claims()["email"]
-    console.log("Salt", email)
     return this.#hashcode(email)
   }
 
@@ -164,7 +159,6 @@ export class AuthService {
     const keypair = new Ed25519Keypair()
     const secretKey = keypair.getSecretKey()
     const address = keypair.getPublicKey().toSuiAddress()
-    console.log(secretKey, address)
     return { walletAddress: address, addressSecretKey: secretKey }
   }
 }

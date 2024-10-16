@@ -49,7 +49,6 @@ const SetProfilePage = () => {
         setTimeout(() => window.location.assign("/app"), 1000)
       }
     } catch (error) {
-      console.log(error)
       if (
         error.response.data.message.toLowerCase() ===
         "you already have an account"

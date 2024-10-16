@@ -27,24 +27,24 @@ const useTransformEmails = () => {
                 sender,
               } = mail.data.content.fields
 
-              const decryptedAesKey =
-                cipherService.decryptWithPrivateKey(aesKey)
-              const decryptedIV = cipherService.decryptWithPrivateKey(iv)
               const decryptedPayload = await cipherService.decryptData(body, {
-                key: decryptedAesKey,
-                iv: decryptedIV,
+                aesKey,
+                iv,
               })
 
-              const { subject, message } =
+              const emailPayload =
                 cipherService.parseEmailPayload(decryptedPayload)
 
               return {
                 id: id.id,
-                subject: subject,
-                message: message,
+                subject: emailPayload.subject,
+                message: emailPayload.body,
                 is_read,
                 starred,
-                sender,
+                sender: {
+                  walletAddress: sender,
+                  email: emailPayload.recipient,
+                },
                 timestamp,
               }
             })

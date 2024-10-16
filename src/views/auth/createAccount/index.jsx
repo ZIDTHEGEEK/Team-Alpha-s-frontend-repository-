@@ -64,7 +64,6 @@ const CreateAccountPage = () => {
         setTimeout(() => navigate("/auth/login"), 1000)
       }
     } catch (error) {
-      console.log(error)
       if (
         error.response.data.message &&
         error.response.data.message.toLowerCase() ===
