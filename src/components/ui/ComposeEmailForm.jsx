@@ -1,93 +1,94 @@
-import { useState } from "react"
-import { toast } from "react-hot-toast"
-import { useDispatch } from "react-redux"
-import { MailService } from "../../services/mail.service"
-import { useGetUserWalletByEmailMutation } from "../../redux/hooks/user"
-import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice"
-import { CipherService } from "../../utils/encryption"
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { MailService } from "../../services/mail.service";
+import { useGetUserWalletByEmailMutation } from "../../redux/hooks/user";
+import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice";
+// import { CipherService } from "../../utils/encryption";
 
 const ComposeEmailForm = () => {
-  const dispatch = useDispatch()
-  const mailService = new MailService()
-  const cipherService = new CipherService()
-  const [emailIsSending, setEmailIsSending] = useState(false)
+  const dispatch = useDispatch();
+  const mailService = new MailService();
+  // const cipherService = new CipherService();
+  const [emailIsSending, setEmailIsSending] = useState(false);
 
   const [emailPayload, setEmailPayload] = useState({
     recipient: "",
     subject: "",
     body: "",
-  })
+  });
 
-  const { mutateAsync: getUserWallet } = useGetUserWalletByEmailMutation()
+  const { mutateAsync: getUserWallet } = useGetUserWalletByEmailMutation();
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     setEmailPayload((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const emailInputIsValid = () => {
     if (emailPayload.recipient.length === 0) {
-      toast.error("Enter a valid email or wallet address")
-      return false
+      toast.error("Enter a valid email or wallet address");
+      return false;
     }
     if (emailPayload.subject.length === 0) {
-      toast.error("Enter a valid email subject")
-      return false
+      toast.error("Enter a valid email subject");
+      return false;
     }
     if (emailPayload.body.length === 0) {
-      toast.error("Enter a valid email message")
-      return false
+      toast.error("Enter a valid email message");
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     try {
-      e.preventDefault()
-      if (!emailInputIsValid()) return
+      e.preventDefault();
+      if (!emailInputIsValid()) return;
 
-      setEmailIsSending(true)
+      setEmailIsSending(true);
 
-      const response = await getUserWallet({ email: emailPayload.recipient })
+      const response = await getUserWallet({ email: emailPayload.recipient });
 
       if (response.status === 201 && response.data) {
-        const walletAddress = response.data
-        const stringifiedMail = JSON.stringify(emailPayload)
-        const { encryptedData, secure } =
-          await cipherService.encryptData(stringifiedMail)
+        const walletAddress = response.data;
+        const stringifiedMail = JSON.stringify(emailPayload);
+        // const { encryptedData, secure } = 
+        //   await cipherService.encryptData(stringifiedMail);
 
         const transactionResponse = await mailService.sendMail({
-          body: encryptedData.toHex(),
+          // body: encryptedData.toHex(),
+          body: stringifiedMail, // Temporarily using plain text
           recipient: walletAddress,
-          aesKey: secure.aesKey,
-          iv: secure.iv,
-        })
+          // aesKey: secure.aesKey,
+          // iv: secure.iv,
+        });
 
         if (transactionResponse.effects.status.status === "success") {
-          toast.success("Email sent successfully")
-          handleSetFormDisplayState(false)
+          toast.success("Email sent successfully");
+          handleSetFormDisplayState(false);
         }
       }
     } catch (error) {
       if (error?.response?.data?.message.toLowerCase() === "not found") {
         toast.error(
           `Cannot send mail to ${emailPayload.recipient}. Try again later`
-        )
-        return
+        );
+        return;
       }
-      toast.error(`${error.message}`)
+      toast.error(`${error.message}`);
     } finally {
-      setEmailIsSending(false)
+      setEmailIsSending(false);
     }
-  }
+  };
 
   const handleSetFormDisplayState = (value) => {
-    dispatch(setComposeEmailFormDisplayState(value))
-  }
+    dispatch(setComposeEmailFormDisplayState(value));
+  };
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-black/40 z-50">
@@ -123,7 +124,6 @@ const ComposeEmailForm = () => {
                 />
               </div>
 
-              {/*  */}
               <div className="w-full">
                 <input
                   required
@@ -137,7 +137,6 @@ const ComposeEmailForm = () => {
                 />
               </div>
 
-              {/*  */}
               <div className="w-full">
                 <textarea
                   required
@@ -166,7 +165,7 @@ const ComposeEmailForm = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ComposeEmailForm
+export default ComposeEmailForm;

@@ -5,9 +5,10 @@ import { suiClient } from "../../suiClient"
 import { useNavigate } from "react-router-dom"
 import { VITE_SUI_MAIL_PACKAGE_ID } from "../../config"
 import EmailListWrapComponent from "./EmailListWrapComponent"
-import useTransformEmails from "../../hooks/useTransformEmails"
 import { useDispatch } from "react-redux"
 import { setActiveMail } from "../../redux/slices/mailSlice"
+
+// import useTransformEmails from "../../hooks/useTransformEmails" // Transform email hook commented
 
 const EmailListWrap = ({ address }) => {
   const navigate = useNavigate()
@@ -16,7 +17,7 @@ const EmailListWrap = ({ address }) => {
   const [emails, setEmails] = useState([])
   const [refetch, setRefetch] = useState(false)
   const [error, setError] = useState(null)
-  const { transformEmails } = useTransformEmails()
+  // const { transformEmails } = useTransformEmails() // Transform email hook commented
 
   const handleGetOwnedObject = useCallback(async () => {
     const data = await suiClient.getOwnedObjects({
@@ -40,8 +41,9 @@ const EmailListWrap = ({ address }) => {
     ;(async () => {
       try {
         const result = await handleGetOwnedObject()
-        const responsiveEmails = await transformEmails(result.data)
-        setEmails(responsiveEmails)
+        // const responsiveEmails = await transformEmails(result.data) // Transform email hook commented
+        // setEmails(responsiveEmails) // Transform email hook commented
+        setEmails(result.data) // Temporary direct assignment
       } catch (error) {
         setError(error)
         toast.error("Error fetching emails")
@@ -49,7 +51,7 @@ const EmailListWrap = ({ address }) => {
         setEmailIsFetching(false)
       }
     })()
-  }, [handleGetOwnedObject, transformEmails, refetch])
+  }, [handleGetOwnedObject, /* transformEmails, */ refetch]) // Transform email hook commented
 
   if (error) {
     return (
