@@ -1,4 +1,4 @@
-import { deleteRequest, get, post, put } from "../../../api"
+import { deleteRequest, get, post, put } from "../.."
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const useCreateDraftMutation = () => {

@@ -3,11 +3,11 @@ import PropTypes from "prop-types"
 import { toast } from "react-hot-toast"
 import { suiClient } from "../../suiClient"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 import { VITE_SUI_MAIL_PACKAGE_ID } from "../../config"
+import { setActiveMail } from "../../redux/slices/mailSlice"
 import EmailListWrapComponent from "./EmailListWrapComponent"
 import useTransformEmails from "../../hooks/useTransformEmails"
-import { useDispatch } from "react-redux"
-import { setActiveMail } from "../../redux/slices/mailSlice"
 
 const EmailListWrap = ({ address }) => {
   const navigate = useNavigate()
