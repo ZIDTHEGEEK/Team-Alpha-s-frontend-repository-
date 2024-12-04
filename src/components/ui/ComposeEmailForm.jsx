@@ -4,12 +4,11 @@ import { useDispatch } from "react-redux";
 import { MailService } from "../../services/mail.service";
 import { useGetUserWalletByEmailMutation } from "../../redux/hooks/user";
 import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice";
-// import { CipherService } from "../../utils/encryption";
 
 const ComposeEmailForm = () => {
   const dispatch = useDispatch();
   const mailService = new MailService();
-  // const cipherService = new CipherService();
+
   const [emailIsSending, setEmailIsSending] = useState(false);
 
   const [emailPayload, setEmailPayload] = useState({
@@ -57,15 +56,10 @@ const ComposeEmailForm = () => {
       if (response.status === 201 && response.data) {
         const walletAddress = response.data;
         const stringifiedMail = JSON.stringify(emailPayload);
-        // const { encryptedData, secure } = 
-        //   await cipherService.encryptData(stringifiedMail);
 
         const transactionResponse = await mailService.sendMail({
-          // body: encryptedData.toHex(),
-          body: stringifiedMail, // Temporarily using plain text
+          body: stringifiedMail,
           recipient: walletAddress,
-          // aesKey: secure.aesKey,
-          // iv: secure.iv,
         });
 
         if (transactionResponse.effects.status.status === "success") {
