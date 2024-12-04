@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { toast } from "react-hot-toast"
+import { useDispatch } from "react-redux"
 import { suiClient } from "../../suiClient"
 import { useNavigate } from "react-router-dom"
 import { VITE_SUI_MAIL_PACKAGE_ID } from "../../config"
-import EmailListWrapComponent from "./EmailListWrapComponent"
-import useTransformEmails from "../../hooks/useTransformEmails"
-import { useDispatch } from "react-redux"
 import { setActiveMail } from "../../redux/slices/mailSlice"
+import EmailListWrapComponent from "./EmailListWrapComponent"
 
 const EmailListWrap = ({ address }) => {
   const navigate = useNavigate()
@@ -16,7 +15,6 @@ const EmailListWrap = ({ address }) => {
   const [emails, setEmails] = useState([])
   const [refetch, setRefetch] = useState(false)
   const [error, setError] = useState(null)
-  const { transformEmails } = useTransformEmails()
 
   const handleGetOwnedObject = useCallback(async () => {
     const data = await suiClient.getOwnedObjects({
@@ -40,8 +38,7 @@ const EmailListWrap = ({ address }) => {
     ;(async () => {
       try {
         const result = await handleGetOwnedObject()
-        const responsiveEmails = await transformEmails(result.data)
-        setEmails(responsiveEmails)
+        setEmails(result.data)
       } catch (error) {
         setError(error)
         toast.error("Error fetching emails")
@@ -49,7 +46,7 @@ const EmailListWrap = ({ address }) => {
         setEmailIsFetching(false)
       }
     })()
-  }, [handleGetOwnedObject, transformEmails, refetch])
+  }, [handleGetOwnedObject, refetch])
 
   if (error) {
     return (

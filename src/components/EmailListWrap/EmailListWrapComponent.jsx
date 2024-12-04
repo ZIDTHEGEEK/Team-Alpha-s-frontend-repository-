@@ -28,7 +28,7 @@ const EmailListWrapComponent = ({
 
       {/* Email List Section */}
       <div className="mt-6 divide-y divide-gray-200 overflow-y-scroll flex-grow max-h-[720px] md:h-full">
-        {mails.map((mail, index) => (
+        {[].map((mail, index) => (
           <EmailRow
             key={index}
             mail={mail}

@@ -9,7 +9,7 @@ export class MailService {
 
   async sendMail(sendMailDto) {
     try {
-      const { body, recipient, aesKey, iv } = sendMailDto
+      const { body, recipient } = sendMailDto
 
       const tx = new Transaction()
 
@@ -18,8 +18,6 @@ export class MailService {
         arguments: [
           tx.pure.address(recipient),
           tx.pure.string(body),
-          tx.pure.string(aesKey),
-          tx.pure.string(iv),
           tx.pure.string(Date.now().toString()),
         ],
       })
