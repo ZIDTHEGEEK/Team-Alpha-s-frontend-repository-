@@ -1,14 +1,13 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { useDispatch } from "react-redux"
-import { MailService } from "../../services/mail.service"
-import { useGetUserWalletByEmailMutation } from "../../redux/hooks/user"
-import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice"
 import { CipherService } from "../../utils/encryption"
+import { sendMail } from "../../services/mail.service"
+import { useGetUserWalletByEmailMutation } from "../../api/hooks/user"
+import { setComposeEmailFormDisplayState } from "../../redux/slices/appUISlice"
 
 const ComposeEmailForm = () => {
   const dispatch = useDispatch()
-  const mailService = new MailService()
   const cipherService = new CipherService()
   const [emailIsSending, setEmailIsSending] = useState(false)
 
@@ -60,7 +59,7 @@ const ComposeEmailForm = () => {
         const { encryptedData, secure } =
           await cipherService.encryptData(stringifiedMail)
 
-        const transactionResponse = await mailService.sendMail({
+        const transactionResponse = await sendMail({
           body: encryptedData.toHex(),
           recipient: walletAddress,
           aesKey: secure.aesKey,

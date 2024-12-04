@@ -12,7 +12,7 @@ import { AuthService } from "../../../services/auth.service"
 import WalletConnectedContainer from "./WalletConnectedContainer"
 import WalletConnectingContainer from "./WalletConnectingContainer"
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
-import { useConnectWalletAuthenticationMutation } from "../../../redux/hooks/auth"
+import { useConnectWalletAuthenticationMutation } from "../../../api/hooks/auth"
 
 const ConnectWalletModal = ({ userIsLoggingIn }) => {
   const authService = new AuthService()

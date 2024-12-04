@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
-import { useGetUserDetailsByEmailQuery } from "../../redux/hooks/user"
 import moment from "moment/moment"
+import { useGetUserDetailsByEmailQuery } from "../../api/hooks/user"
 
 const MailDetailView = ({ mail }) => {
   const {
