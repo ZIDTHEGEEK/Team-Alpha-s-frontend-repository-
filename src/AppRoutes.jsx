@@ -10,6 +10,7 @@ import InboxPage from "./views/app/inbox"
 import InboxEmailDetailPage from "./views/app/inbox/[id]"
 import ComingSoonPage from "./views/coming-soon"
 import SetProfilePage from "./views/set-profile"
+import LandingPage from "./views/landing-Page"
 
 export default function AppRoutes() {
   const pathname = useLocation().pathname
@@ -19,6 +20,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
+      <Route path="landing-Page" element={<LandingPage />}  />
         <Route path="" element={<IndexPage />} />
         <Route path="auth" element={<AuthLayout />}>
           <Route path="create-account" element={<CreateAccountPage />} />
